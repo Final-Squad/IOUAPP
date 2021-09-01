@@ -38,7 +38,7 @@ schema = {
 }
 ```
 
-[ GET | DELETE ] ' users/ user_email' → get and delete user by user's email
+[ GET | DELETE ] ' users/user_email ' → get and delete user by user's email
 
 ## Installation
 
