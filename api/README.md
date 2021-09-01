@@ -24,6 +24,22 @@
             - types
             - app.ts → application main file
 
+## Routes
+
+[ GET ] Home ' / ' route redirects to ' /healthcheck ' → for checking API's current status
+
+[ GET | POST ] ' users/ ' → get all users | create new user
+
+```tsx
+schema = {
+  firstName: string,
+  lastName: string,
+  email: string
+}
+```
+
+[ GET | DELETE ] ' users/ user_email' → get and delete user by user's email
+
 ## Installation
 
 ```bash
