@@ -20,7 +20,7 @@ export const allUsers = async (req: Request, res: Response) => {
     });
     return res.status(400).json({ error: 'UNABLE to get all users from database' });
   });
-  return res.status(200).json({ users_amount: users.length, users: users });
+  return res.status(200).json({ usersAmount: users.length, users: users });
 }
 
 export const getUser = async (req: Request, res: Response) => {

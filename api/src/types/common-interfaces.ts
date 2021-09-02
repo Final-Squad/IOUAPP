@@ -4,8 +4,8 @@ export default interface User extends Document {
   firstName: string,
   lastName: string,
   email: string,
-  owedTo: [Owe], // people the user owes money
-  owedFrom: [Owe], // people who owes the user money
+  owedTo: Owe[], // people the user owes money
+  owedFrom: Owe[], // people who owes the user money
 
 }
 
