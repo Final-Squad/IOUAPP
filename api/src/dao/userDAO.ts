@@ -1,14 +1,13 @@
 import { Model, ObjectId } from "mongoose";
 import User, { DebtCard } from "../types/common-interfaces";
 import DB from "./db";
-const logger = require('../../logger/logger');
 
 export default class UserDAO {
   db: DB;
   userDB: Model<User>;
   errMessage: string = 'userDAO -> ';
 
-  constructor(db: DB) {
+  constructor(db: DB = new DB()) {
     this.db = db;
     this.userDB = db.user;
   }

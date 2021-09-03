@@ -2,11 +2,9 @@ import { Router, Request, Response } from "express";
 import { body } from "express-validator";
 
 import UserServive from "../service/userService";
-import UserDAO from "../dao/userDAO";
-import DB from "../dao/db";
 
 const userRoutes: Router = Router();
-const userService = new UserServive(new UserDAO(new DB()));
+const userService = new UserServive();
 
 userRoutes
   .route("/")

@@ -3,12 +3,13 @@ import { validationResult } from 'express-validator';
 
 import User from "../types/common-interfaces";
 import UserDAO from "../dao/userDAO";
+import { jsonifyUser } from './utils';
 const logger = require("../../logger/logger");
 
 export default class UserServive {
   userDAO: UserDAO;
 
-  constructor(userDAO: UserDAO) {
+  constructor(userDAO: UserDAO = new UserDAO()) {
     this.userDAO = userDAO;
   }
 
@@ -16,7 +17,7 @@ export default class UserServive {
     const users: User[] | null = await this.userDAO.allUsers();
     if (users) {
       const _users: User[] = [];
-      users.forEach((user) => _users.push(UserServive.jsonifyUser(user)));
+      users.forEach(async (user) => _users.push(jsonifyUser(user)));
       return res
         .status(200)
         .json({ length: users.length, users: _users });
@@ -32,11 +33,11 @@ export default class UserServive {
 
     if (user) {
       logger.info({
-        message: UserServive.jsonifyUser(user, false),
+        message: jsonifyUser(user, false),
         service: "service/users -> getUser",
         environment: process.env.NODE_ENV,
       });
-      return res.status(200).json({ user: UserServive.jsonifyUser(user) });
+      return res.status(200).json({ user: jsonifyUser(user) });
     } else {
       return res
         .status(400)
@@ -61,13 +62,13 @@ export default class UserServive {
       logger.info({
         message:
           process.env.NODE_ENV === "development"
-            ? UserServive.jsonifyUser(user, false)
+            ? jsonifyUser(user, false)
             : "created a new user",
-        user: UserServive.jsonifyUser(user),
+        user: jsonifyUser(user),
         service: "service/users -> createUser",
         environment: process.env.NODE_ENV,
       });
-      return res.status(201).json({ user: UserServive.jsonifyUser(user) });
+      return res.status(201).json({ user: jsonifyUser(user) });
     } else {
       return res.status(400).json({ error: "UNABLE to save to database" });
     }
@@ -78,15 +79,6 @@ export default class UserServive {
     return res
       .status(deleted ? 201 : 400)
       .json({ message: deleted ? 'user deleted successfully' : "user with email doesn't exist" });
-  }
-
-  public static jsonifyUser(user: User, json: boolean = true): any {
-    const data = {
-      firstName: user.firstName || null,
-      lastName: user.lastName || null,
-      email: user.email || null,
-    };
-    return !json ? JSON.stringify(data) : data;
   }
 
 }

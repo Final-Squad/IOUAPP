@@ -9,7 +9,7 @@ export default class DebtCardDAO {
   db: DB;
   debtCardDB: Model<DebtCard>;
 
-  constructor(db: DB) {
+  constructor(db: DB = new DB()) {
     this.db = db;
     this.debtCardDB = db.debtCard;
   }
