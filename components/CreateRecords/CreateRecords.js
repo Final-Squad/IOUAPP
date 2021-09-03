@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -9,10 +9,8 @@ export default function CreateRecords({setApp}) {
   const [reason, onChangeReason] = React.useState("");
   // const [text, onChangeText] = React.useState("Name");
 
-  const [selectedValue, setSelectedValue] = useState("Me");
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("me");
+
   return (
     <View>
       <Text style={styles.title}>Create A New Record</Text>
@@ -21,8 +19,8 @@ export default function CreateRecords({setApp}) {
         style={{ width: 300 }}
         onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
       >
-        <Picker.Item label="I owe Someone" value="Me" />
-        <Picker.Item label="Someone owes Me" value="Someone" />
+        <Picker.Item label="I owe Someone" value="me" />
+        <Picker.Item label="Someone owes Me" value="someone" />
       </Picker>
   
       <TextInput
