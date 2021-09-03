@@ -3,13 +3,28 @@ import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 're
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+const date = new Date()
+
 export default function CreateRecords({setApp}) {
-  const [name, onChangeName] = React.useState("");
-  const [things, onChangeThings] = React.useState("");
-  const [reason, onChangeReason] = React.useState("");
-  // const [text, onChangeText] = React.useState("Name");
+  const [name, setName] = React.useState("");
+  const [things, setThings] = React.useState("");
+  const [reason, setReason] = React.useState("");
+  const [ready, setReady] = React.useState(false)
 
   const [youOwe, setyouOwe] = useState(true);
+  const payload = {
+    youOwe: youOwe,
+    name: name,
+    thing: things,
+    reason: reason,
+    startDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
+    endDate: null,
+    paid: false
+  }
+
+  let pl = null
+
+
 
   return (
     <View>
@@ -25,40 +40,54 @@ export default function CreateRecords({setApp}) {
   
       <TextInput
         style={styles.input}
-        onChangeText={onChangeName}
+        onChangeText={setName}
         value={name}
-        clearTextOnFocus={true}
-        placeholder={"Name of the person you owe/owes you."}
+        placeholder={ready ? "Name of the person you owe/owes you." : 'Please enter a name!'}
       />
   
       <TextInput
         style={styles.input}
-        onChangeText={onChangeThings}
+        onChangeText={setThings}
         value={things}
-        clearTextOnFocus={true}
-        placeholder={"What is owed?"}
+        placeholder={ready ? "What is owed?" : 'Please enter the item that is owed!'}
       />
 
       <TextInput
         style={styles.input}
-        onChangeText={onChangeReason}
+        onChangeText={setReason}
         value={reason}
-        clearTextOnFocus={true}
-        placeholder={"What is the Reason?"}
+        placeholder={ready ? "What is the Reason?" : 'Please enter a reason!'}
       />
+
       <Button 
-      title={'Save'}
-      onPress={() => {
-        setApp('View')
-      }}
+        title={'Save'}
+        onPress={() => {
+          if (name && things && reason) {
+            setReady(true)
+            setApp('View');
+            pl = JSON.stringify(payload);
+          } else {
+            setReady(false);
+            console.log('Not all forms are filled');
+          }
+        }}
       />
+
       <Button
       title={'Share & Save'}
       onPress={async () => {
-        await Share.share({
-          message: 'Hey Marcelo, this was sent from the app'
-        });
-        setApp('View');
+        if (name && things && reason) {
+          pl = JSON.stringify(payload);
+          setReady(true)
+
+          await Share.share({
+            message: 'Hey, this was sent from the app,\n' + pl
+          });
+          setApp('View');
+        } else {
+          setReady(false);
+          console.log('Not all forms are filled');
+        }
       }}
       />
     </View>

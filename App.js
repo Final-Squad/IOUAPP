@@ -17,11 +17,11 @@ export default function App() {
         contentContainerStyle={styles.container}
       >
         <KeyboardAvoidingView behavior="position" enabled keyboardVerticalOffset={0}>
-            {
-              appState === 'Front' && <Front setApp={setappState}/> ||
-              appState === 'Create' && <CreateRecords setApp={setappState}/> ||
-              appState === 'View' && <ViewRecord setApp={setappState}/>
-            }
+          {
+            appState === 'Front' && <Front setApp={setappState}/> ||
+            appState === 'Create' && <CreateRecords setApp={setappState}/> ||
+            appState === 'View' && <ViewRecord setApp={setappState}/>
+          }
         </KeyboardAvoidingView>
       </ScrollView>
   );
