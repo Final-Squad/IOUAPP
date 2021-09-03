@@ -3,9 +3,13 @@ import { StyleSheet, Text, View, ScrollView, KeyboardAvoidingView} from 'react-n
 import Splash from './components/Splash/Splash';
 import Front from './components/Front/Front';
 import CreateRecords from './components/CreateRecords/CreateRecords';
+import ViewRecord from './components/ViewRecord/ViewRecord';
+
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [appState, setappState] = useState('Front')
+
   
 
   return (
@@ -13,9 +17,11 @@ export default function App() {
         contentContainerStyle={styles.container}
       >
         <KeyboardAvoidingView behavior="position" enabled keyboardVerticalOffset={0}>
-          {/* <Splash /> */}
-          {/* <Front /> */}
-          <CreateRecords />
+            {
+              appState === 'Front' && <Front setApp={setappState}/> ||
+              appState === 'Create' && <CreateRecords setApp={setappState}/> ||
+              appState === 'View' && <ViewRecord setApp={setappState}/>
+            }
         </KeyboardAvoidingView>
       </ScrollView>
   );

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function CreateRecords() {
+export default function CreateRecords({setApp}) {
   const [name, onChangeName] = React.useState("");
   const [things, onChangeThings] = React.useState("");
   const [reason, onChangeReason] = React.useState("");
@@ -48,22 +48,12 @@ export default function CreateRecords() {
         clearTextOnFocus={true}
         placeholder={"What is the Reason?"}
       />
-
-      <View style={styles.dateView}>
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          display="default"
-          onChange={(event, selectedDate) => {
-            const currentDate = selectedDate || date;
-            setShow(Platform.OS === 'ios');
-            setDate(currentDate);}}
-        />
-      </View>
-
       <Button 
-      title={'Save'}/>
+      title={'Save'}
+      onPress={() => {
+        setApp('View')
+      }}
+      />
     </View>
   );
 }
