@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run build && node dist/app.js",
     "build": "tsc -p .",
-    "dev": "NODE_ENV=development nodemon src/*"
+    "dev": "NODE_ENV=development nodemon src/*",
+    "prettier": "prettier 'src/**/*.ts'",
+    "prettier:fix": "prettier --write 'src/**/*.ts'"
   },
   "keywords": [
     "api",
@@ -27,10 +29,8 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "@google-cloud/logging-winston": "^4.1.0",
     "express": "^4.17.1",
     "express-validator": "^6.12.1",
-    "express-winston": "^4.2.0",
     "mongoose": "^6.0.3",
     "winston": "^3.3.3"
   }
