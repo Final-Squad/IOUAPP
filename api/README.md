@@ -47,7 +47,7 @@
   "payer": "john@gmail.com",
   "receiver": "doe@gmail.com",
   "reason": "food & drink",
-	"amount": 21.25
+  "amount": 21.25
 }
 ```
 
