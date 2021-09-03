@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -9,18 +9,18 @@ export default function CreateRecords({setApp}) {
   const [reason, onChangeReason] = React.useState("");
   // const [text, onChangeText] = React.useState("Name");
 
-  const [selectedValue, setSelectedValue] = useState("me");
+  const [youOwe, setyouOwe] = useState(true);
 
   return (
     <View>
       <Text style={styles.title}>Create A New Record</Text>
       <Picker
-        selectedValue={selectedValue}
+        selectedValue={youOwe}
         style={{ width: 300 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
+        onValueChange={(itemValue, itemIndex) => setyouOwe(itemValue)}
       >
-        <Picker.Item label="I owe Someone" value="me" />
-        <Picker.Item label="Someone owes Me" value="someone" />
+        <Picker.Item label="I owe Someone" value={true} />
+        <Picker.Item label="Someone owes Me" value={false} />
       </Picker>
   
       <TextInput
@@ -50,6 +50,15 @@ export default function CreateRecords({setApp}) {
       title={'Save'}
       onPress={() => {
         setApp('View')
+      }}
+      />
+      <Button
+      title={'Share & Save'}
+      onPress={async () => {
+        await Share.share({
+          message: 'Hey Marcelo, this was sent from the app'
+        });
+        setApp('View');
       }}
       />
     </View>
