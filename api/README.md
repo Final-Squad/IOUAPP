@@ -9,20 +9,20 @@
     - Winston → Logger
     - Auth0
     - MongoDB → using mongoose
-- **Architecture → Model Service Controller**
+- **Architecture → Model DAO Service Controller**
     - **api** → root directory
         - **dist** → build
-        - **logger** → save custom logs
+        - **logger** → custom logs
         - **src** → main entry
 
-            Flow |- model → db.ts → service → controller → app.ts
+            Flow |- model → dao → service → controller → app.ts
 
             - controller
-            - db.ts → database connection and logic |- should be tested
+            - dao → data access object
             - model → in the form of MongoDB (Schema) documents
             - service → should be tested
-            - types
-            - app.ts → application main file
+            - types → interfaces
+            - app.ts → application main file - server
 
 ## Routes
 
@@ -30,15 +30,26 @@
 
 [ GET | POST ] ' users/ ' → get all users | create new user
 
-```tsx
-schema = {
-  firstName: string,
-  lastName: string,
-  email: string
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "doe@gmail.com"
 }
 ```
 
 [ GET | DELETE ] ' users/user_email ' → get and delete user by user's email
+
+[ GET | POST ] ' debtcards/ ' → get all debtcards | create new debtcard
+
+```json
+{
+  "payer": "john@gmail.com",
+  "receiver": "doe@gmail.com",
+  "reason": "food & drink",
+	"amount": 21.25
+}
+```
 
 ## Installation
 
