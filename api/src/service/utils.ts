@@ -1,3 +1,5 @@
+import { validationResult } from "express-validator";
+import { Request, Response } from "express";
 import User, { DebtCard } from "../types/common-interfaces";
 
 export const jsonifyDebtCard = (debtCard: DebtCard, json: boolean = true) => {
@@ -12,9 +14,11 @@ export const jsonifyDebtCard = (debtCard: DebtCard, json: boolean = true) => {
   return !json ? JSON.stringify(data) : data;
 }
 
-export const debtCardList = (debtCards: DebtCard[]): DebtCard[] => {
+export const debtCardList = (debtCards: DebtCard[] | null): DebtCard[] => {
   const _debtCards: any[] = [];
-  debtCards.forEach((card) => _debtCards.push(jsonifyDebtCard(card)));
+  if (debtCards) {
+    debtCards.forEach((card) => _debtCards.push(jsonifyDebtCard(card)));
+  }
   return _debtCards;
 }
 
@@ -25,4 +29,11 @@ export const jsonifyUser = (user: User, json: boolean = true): any => {
     email: user.email || null,
   };
   return !json ? JSON.stringify(data) : data;
+}
+
+export const validateRequest = (req: Request, res: Response): Response | void  => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 }

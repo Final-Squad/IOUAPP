@@ -8,7 +8,7 @@
     - ExpressJS
     - Winston → Logger
     - Auth0
-    - MongoDB → using mongoose
+    - MongoDB → mongoose
 - **Architecture → Model DAO Service Controller**
     - **api** → root directory
         - **dist** → build
@@ -19,10 +19,10 @@
 
             - controller
             - dao → data access object
-            - model → in the form of MongoDB (Schema) documents
+            - model → MongoDB (Schema) Documents
             - service → should be tested
             - types → interfaces
-            - app.ts → application main file - server
+            - app.ts → server
 
 ## Routes
 
@@ -50,6 +50,24 @@
   "amount": 21.25
 }
 ```
+
+[ GET ] ' debtcards/users/:user_email?debt=payer || receiver ' → get all debtcards for user by filtering what the user has to pay or what is owed to the user
+
+```
+Example: debtcards/users/doe@gmail.com?debt=payer
+                           Or
+Example: debtcards/users/doe@gmail.com?debt=receiver
+```
+
+[ GET | PUT ] ' debtcards/:debtcard_id?paid=true || false ' → get debtcards by id,  update payment status
+
+```
+GET: http://localhost:3000/debtcards/61319824c6d622bc31899bd2
+
+PUT: http://localhost:3000/debtcards/61319824c6d622bc31899bd2?paid=true
+```
+
+[ GET ] ' debtcards/users/:user_email/paid'  → get debtcards paid to, or by user
 
 ## Installation
 

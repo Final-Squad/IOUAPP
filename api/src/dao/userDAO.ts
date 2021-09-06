@@ -1,5 +1,5 @@
-import { Model, ObjectId } from "mongoose";
-import User, { DebtCard } from "../types/common-interfaces";
+import mongoose, { Model } from "mongoose";
+import User from "../types/common-interfaces";
 import DB from "./db";
 
 export default class UserDAO {
@@ -35,7 +35,7 @@ export default class UserDAO {
     }
   }
 
-  async getUserById(id: ObjectId): Promise<User | null> {
+  async getUserById(id: mongoose.Types.ObjectId): Promise<User | null> {
     const user = await this.userDB.findById(id);
     const messageError = `user with _id [ ${id} ] doesn't exist`;
     if (user) {

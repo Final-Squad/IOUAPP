@@ -1,8 +1,7 @@
-import { Model, ObjectId } from "mongoose";
-import User, { DebtCard } from "../types/common-interfaces";
+import mongoose, { Model, ObjectId } from "mongoose";
+import { DebtCard } from "../types/common-interfaces";
 
 import DB from "./db";
-const logger = require('../../logger/logger');
 
 export default class DebtCardDAO {
   errMessage: string = 'debtCardDAO -> ';
@@ -27,7 +26,7 @@ export default class DebtCardDAO {
     return debtCards;
   }
 
-  async getDebtCardById(id: ObjectId): Promise<DebtCard | null> {
+  async getDebtCardById(id: mongoose.Types.ObjectId): Promise<DebtCard | null> {
     const debtCard = this.debtCardDB.findById(id);
     if (debtCard) {
       return debtCard;

@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
 
 import User from "../types/common-interfaces";
 import UserDAO from "../dao/userDAO";
-import { jsonifyUser } from './utils';
+import { jsonifyUser, validateRequest } from './utils';
 const logger = require("../../logger/logger");
 
 export default class UserServive {
@@ -46,10 +45,7 @@ export default class UserServive {
   }
 
   async createUser(req: Request, res: Response): Promise<Response> {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+    validateRequest(req, res);
 
     const reqUser = {
       firstName: req.body.firstName,
