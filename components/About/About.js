@@ -39,7 +39,9 @@ const words = [
   '"Currently hacking... into your heart."',
   '"Feel free to send your love to us."',
   '"We knew nothing."',
-  '"Now we can make apps"'
+  '"Now we can make apps"',
+  '"I dont know how long ill be around..."',
+  '"but I`d like to enjoy it."'
 ]
 
 
@@ -65,28 +67,28 @@ export default function About({setApp}) {
   }, [string])
 
 
-  React.useEffect(() => {
-    async() => {
-      console.log('newString')
-      sleep(5000)
+  // React.useEffect(() => {
+  //   async() => {
+  //     console.log('newString')
+  //     sleep(5000)
 
-      setNum((num % words.length) + 1)
-      console.log("string is", string)
+  //     setNum((num % words.length) + 1)
+  //     console.log("string is", string)
 
-      setString(words[num % words.length])
-    }
-  }, [string])
+  //     setString(words[num % words.length])
+  //   }
+  // }, [string])
 
-  // const newString = async() => {
+  const newString = async() => {
 
-  //   console.log('newString')
-  //   await sleep(5000)
+    console.log('newString')
+    await sleep(5000)
 
-  //   setNum((num % words.length) + 1)
-  //   console.log("string is", string)
+    setNum((num % words.length) + 1)
+    console.log("string is", string)
 
-  //   setString(words[num % words.length])
-  // }
+    setString(words[num % words.length])
+  }
 
 
 
@@ -99,8 +101,8 @@ export default function About({setApp}) {
           </Text>
         </View>
 
-        <View>
-            <Text style={styles.title}>{string}</Text>
+        <View style={{opacity: fadeAnim}}>
+            <Text style={styles.title}>{newString() && string}</Text>
         </View>
 
         <View style={styles.buttons}>
