@@ -15,17 +15,17 @@ export default function Front({setApp}) {
           </Text>
         </View>
 
-        <View>
+        <View style={styles.buttons}>
           <Button 
             title="Create New Record"
-            color="grey"
+            color="black"
             onPress={() => {
               setApp('Create')
             }}
           />
           <Button
             title="View Records" 
-            color="grey"
+            color="black"
             onPress={() => {
               setApp('View')
             }}
@@ -47,6 +47,5 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 50,
     opacity: .3
-  },
-  
+  }
 });

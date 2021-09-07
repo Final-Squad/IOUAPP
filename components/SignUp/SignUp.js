@@ -94,7 +94,10 @@ export default function SignUp({setApp}) {
           if (!verified) {
             toast.show("Passwords arent the same")
           } else {
+
             pl = JSON.stringify(payload);
+            // database stuff goes here
+
             setReady(true)
             setApp('Front');
           }

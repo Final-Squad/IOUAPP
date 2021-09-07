@@ -74,15 +74,12 @@ export default function ViewRecord({setApp}) {
             null
           })
         }
-
       </ScrollView>
       <Text style={styles.header}>Paid Dues</Text>
       <ScrollView
       showsVerticalScrollIndicator={false}
       style={{paddingHorizontal: 20}}
-
       >
-
         {
           mock.map((rec) => {
             return rec.paid ?
@@ -97,6 +94,7 @@ export default function ViewRecord({setApp}) {
 
       </ScrollView>
       <Button 
+          color='black'
           title="Done"
           onPress={
             () => {

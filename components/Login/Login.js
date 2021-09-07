@@ -50,38 +50,41 @@ export default function Login({setApp}) {
         textContentType={'password'}
         secureTextEntry={true}
       />
+      <View style={styles.buttons}>
+        <Button 
+          color='black'
+          title={'Log In'}
+          onPress={() => {
+            if (email && password) {
+              setReady(true)
+              setApp('Front');
+              pl = JSON.stringify(payload);
+            } else {
+              setReady(false);
+              toast.show("Not all fields have been filled, please fill them in.", alertConfig)
+              console.log('Not all forms are filled');
+            }
+          }}
+        />
 
-      <Button 
-        title={'Log In'}
-        onPress={() => {
+        <Button
+        color='black'
+        title={'Sign Up!'}
+        onPress={async () => {
           if (email && password) {
-            setReady(true)
-            setApp('Front');
             pl = JSON.stringify(payload);
+            // database stuff goes here
+
+            setReady(true)
+            setApp('SignUp');
           } else {
             setReady(false);
             toast.show("Not all fields have been filled, please fill them in.", alertConfig)
             console.log('Not all forms are filled');
           }
         }}
-      />
-
-      <Button
-      title={'Sign Up!'}
-      onPress={async () => {
-        if (email && password) {
-          pl = JSON.stringify(payload);
-          // database stuff goes here
-
-          setReady(true)
-          setApp('SignUp');
-        } else {
-          setReady(false);
-          toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-          console.log('Not all forms are filled');
-        }
-      }}
-      />
+        />
+      </View>
     </View>
   );
 }
@@ -97,4 +100,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row'
+  }
 });

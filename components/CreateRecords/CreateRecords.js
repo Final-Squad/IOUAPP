@@ -72,40 +72,44 @@ export default function CreateRecords({setApp}) {
         placeholder={ready ? "What is the Reason?" : 'Please enter a reason!'}
       />
 
-      <Button 
-        title={'Save'}
-        onPress={() => {
+      <View style={styles.buttons}>
+        <Button 
+          color='black'
+          title={'Save'}
+          onPress={() => {
+            if (name && things && reason) {
+              // database stuff goes here
+              setReady(true)
+              setApp('View');
+              pl = JSON.stringify(payload);
+            } else {
+              setReady(false);
+              toast.show("Not all fields have been filled, please fill them in.", alertConfig)
+              console.log('Not all forms are filled');
+            }
+          }}
+        />
+
+        <Button
+        color='black'
+        title={'Share & Save'}
+        onPress={async () => {
           if (name && things && reason) {
+            await Share.share({
+              message: 'Hey, this was sent from the app,\n' + pl
+            });
             // database stuff goes here
+            pl = JSON.stringify(payload);
             setReady(true)
             setApp('View');
-            pl = JSON.stringify(payload);
           } else {
             setReady(false);
             toast.show("Not all fields have been filled, please fill them in.", alertConfig)
             console.log('Not all forms are filled');
           }
         }}
-      />
-
-      <Button
-      title={'Share & Save'}
-      onPress={async () => {
-        if (name && things && reason) {
-          await Share.share({
-            message: 'Hey, this was sent from the app,\n' + pl
-          });
-          // database stuff goes here
-          pl = JSON.stringify(payload);
-          setReady(true)
-          setApp('View');
-        } else {
-          setReady(false);
-          toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-          console.log('Not all forms are filled');
-        }
-      }}
-      />
+        />
+      </View>
     </View>
   );
 }
@@ -121,4 +125,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  buttons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  }
 });
