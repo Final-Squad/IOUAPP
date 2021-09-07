@@ -52,6 +52,7 @@ export default function CreateRecords({setApp}) {
         style={styles.input}
         onChangeText={setName}
         value={name}
+        placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "Name of the person you owe/owes you." : 'Please enter a name!'}
       />
   
@@ -59,6 +60,7 @@ export default function CreateRecords({setApp}) {
         style={styles.input}
         onChangeText={setThings}
         value={things}
+        placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "What is owed?" : 'Please enter the item that is owed!'}
       />
 
@@ -66,6 +68,7 @@ export default function CreateRecords({setApp}) {
         style={styles.input}
         onChangeText={setReason}
         value={reason}
+        placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "What is the Reason?" : 'Please enter a reason!'}
       />
 
@@ -73,6 +76,7 @@ export default function CreateRecords({setApp}) {
         title={'Save'}
         onPress={() => {
           if (name && things && reason) {
+            // database stuff goes here
             setReady(true)
             setApp('View');
             pl = JSON.stringify(payload);
@@ -88,12 +92,12 @@ export default function CreateRecords({setApp}) {
       title={'Share & Save'}
       onPress={async () => {
         if (name && things && reason) {
-          pl = JSON.stringify(payload);
-          setReady(true)
-
           await Share.share({
             message: 'Hey, this was sent from the app,\n' + pl
           });
+          // database stuff goes here
+          pl = JSON.stringify(payload);
+          setReady(true)
           setApp('View');
         } else {
           setReady(false);

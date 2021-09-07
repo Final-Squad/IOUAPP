@@ -36,6 +36,9 @@ export default function ViewRecord({setApp}) {
         <Text style={{textAlign: 'center', color: 'white'}}>{`Awaited Item: ${obj.thing}`}</Text>
         <Text style={{textAlign: 'center', color: 'white'}}>{`Waiting Since: ${obj.startDate}`}</Text>
         {obj.paid ? <Text style={{textAlign: 'center', color: 'white'}}>{`Paid on: ${obj.endDate}`}</Text> : null}
+
+        {/* db code for mark as paid */}
+
         {!obj.paid && <Button style={{textAlign: 'center', color: 'white'}} title='Mark as Paid?' onPress={() => {obj.paid = true; obj.endDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`; setpaid(true); console.log("obj ->", obj)}}/>}
         <Button style={{textAlign: 'center', color: 'white'}} onPress={() => setinfoComp(false)} title='Done'/>
         {!obj.paid && <Button

@@ -1,76 +1,83 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { useToast } from "react-native-toast-notifications";
 
-const date = new Date()
 
-export default function CreateRecords({setApp}) {
-  const [name, setName] = React.useState("");
-  const [things, setThings] = React.useState("");
-  const [reason, setReason] = React.useState("");
-  const [ready, setReady] = React.useState(false)
 
-  const [youOwe, setyouOwe] = useState(true);
+
+export default function Login({setApp}) {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [ready, setReady] = React.useState(true)
+
+
   const payload = {
-    youOwe: youOwe,
-    name: name,
-    thing: things,
-    reason: reason,
-    startDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
-    endDate: null,
-    paid: false
+    email: email,
+    password: password
   }
 
   let pl = null
+  const toast = useToast();
+  const alertConfig = {
+    type: 'danger',
+    placement: "top",
+    duration: 3000,
+    animationType: 'zoom-in'
+  }
+
 
 
 
   return (
     <View>
       <Text style={styles.title}>Login</Text>
-  
-      <TextInput
-        style={styles.input}
-        onChangeText={setName}
-        value={name}
-        placeholder="Please enter an email"
-      />
-  
-      <TextInput
-        style={styles.input}
-        onChangeText={setThings}
-        value={things}
-        placeholder="password"
-      />
 
+      <TextInput
+        style={styles.input}
+        onChangeText={setEmail}
+        value={email}
+        placeholder={ready ? "Your Email" : 'Please enter an Email!'}
+        placeholderTextColor={ready ? 'black' : 'red'}
+        textContentType='emailAddress'
+      />
+  
+      <TextInput
+        style={styles.input}
+        onChangeText={setPassword}
+        value={password}
+        placeholder={ready ? "Your Password" : 'Please enter a valid Password!'}
+        placeholderTextColor={ready ? 'black' : 'red'}
+        textContentType={'password'}
+        secureTextEntry={true}
+      />
 
       <Button 
-        title={'Sign In'}
+        title={'Log In'}
         onPress={() => {
-          if (name && things && reason) {
+          if (email && password) {
             setReady(true)
-            setApp('View');
+            setApp('Front');
             pl = JSON.stringify(payload);
           } else {
             setReady(false);
+            toast.show("Not all fields have been filled, please fill them in.", alertConfig)
             console.log('Not all forms are filled');
           }
         }}
       />
 
       <Button
-      title={'Sign Up'}
+      title={'Sign Up!'}
       onPress={async () => {
-        if (name && things && reason) {
+        if (email && password) {
           pl = JSON.stringify(payload);
-          setReady(true)
+          // database stuff goes here
 
-          await Share.share({
-            message: 'Hey, this was sent from the app,\n' + pl
-          });
-          setApp('View');
+          setReady(true)
+          setApp('SignUp');
         } else {
           setReady(false);
+          toast.show("Not all fields have been filled, please fill them in.", alertConfig)
           console.log('Not all forms are filled');
         }
       }}
