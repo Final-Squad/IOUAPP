@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "this app is used to help people record  when they owe other or if others owe them",
+    "githubUrl": "https://github.com/Final-Squad/IOUAPP"
   }
 }

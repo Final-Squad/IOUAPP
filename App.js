@@ -4,6 +4,7 @@ import Splash from './components/Splash/Splash';
 import Front from './components/Front/Front';
 import CreateRecords from './components/CreateRecords/CreateRecords';
 import ViewRecord from './components/ViewRecord/ViewRecord';
+import { ToastProvider } from 'react-native-toast-notifications';
 
 
 export default function App() {
@@ -13,6 +14,8 @@ export default function App() {
   
 
   return (
+    <ToastProvider offsetTop={100}
+    textStyle={{ fontSize: 30 }}>
       <ScrollView
         contentContainerStyle={styles.container}
       >
@@ -24,6 +27,7 @@ export default function App() {
           }
         </KeyboardAvoidingView>
       </ScrollView>
+    </ToastProvider>
   );
 }
 

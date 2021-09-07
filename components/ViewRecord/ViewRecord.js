@@ -30,7 +30,7 @@ export default function ViewRecord({setApp}) {
     return (
     <View style={{backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute', width: '100%', height: '120%', bottom: 0}}>
       <View style={{backgroundColor: 'black', width: '90%', height: '80%', left: '5%', top: '13%' , position: 'absolute', padding: 50}}>
-        <Text style={{textAlign: 'center', color: 'white'}}>Title: {obj.youOwe ? `i owe ${obj.name}` : `${obj.name} owes me`}</Text>
+        <Text style={{textAlign: 'center', color: 'white'}}>Title: {obj.youOwe ? `I owe ${obj.name}` : `${obj.name} owes me`}</Text>
 
         <Text style={{textAlign: 'center', color: 'white'}}>{`Name: ${obj.name}`}</Text>
         <Text style={{textAlign: 'center', color: 'white'}}>{`Awaited Item: ${obj.thing}`}</Text>

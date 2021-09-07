@@ -23,6 +23,8 @@
     "react-native-navigation": "^7.19.1",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-toast-banner": "^1.0.0",
+    "react-native-toast-notifications": "^3.1.1",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.4"
   },

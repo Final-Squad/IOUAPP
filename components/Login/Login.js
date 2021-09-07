@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { useToast } from "react-native-toast-notifications";
-
 
 const date = new Date()
-
 
 export default function CreateRecords({setApp}) {
   const [name, setName] = React.useState("");
@@ -25,52 +22,30 @@ export default function CreateRecords({setApp}) {
   }
 
   let pl = null
-  const toast = useToast();
-  const alertConfig = {
-    type: 'danger',
-    placement: "top",
-    duration: 3000,
-    animationType: 'zoom-in'
-  }
-
 
 
 
   return (
     <View>
-      <Text style={styles.title}>Create A New Record</Text>
-      <Picker
-        selectedValue={youOwe}
-        style={{ width: 300 }}
-        onValueChange={(itemValue, itemIndex) => setyouOwe(itemValue)}
-      >
-        <Picker.Item label="I owe Someone" value={true} />
-        <Picker.Item label="Someone owes Me" value={false} />
-      </Picker>
+      <Text style={styles.title}>Login</Text>
   
       <TextInput
         style={styles.input}
         onChangeText={setName}
         value={name}
-        placeholder={ready ? "Name of the person you owe/owes you." : 'Please enter a name!'}
+        placeholder="Please enter an email"
       />
   
       <TextInput
         style={styles.input}
         onChangeText={setThings}
         value={things}
-        placeholder={ready ? "What is owed?" : 'Please enter the item that is owed!'}
+        placeholder="password"
       />
 
-      <TextInput
-        style={styles.input}
-        onChangeText={setReason}
-        value={reason}
-        placeholder={ready ? "What is the Reason?" : 'Please enter a reason!'}
-      />
 
       <Button 
-        title={'Save'}
+        title={'Sign In'}
         onPress={() => {
           if (name && things && reason) {
             setReady(true)
@@ -78,14 +53,13 @@ export default function CreateRecords({setApp}) {
             pl = JSON.stringify(payload);
           } else {
             setReady(false);
-            toast.show("Not all fields have been filled, please fill them in.", alertConfig)
             console.log('Not all forms are filled');
           }
         }}
       />
 
       <Button
-      title={'Share & Save'}
+      title={'Sign Up'}
       onPress={async () => {
         if (name && things && reason) {
           pl = JSON.stringify(payload);
@@ -97,7 +71,6 @@ export default function CreateRecords({setApp}) {
           setApp('View');
         } else {
           setReady(false);
-          toast.show("Not all fields have been filled, please fill them in.", alertConfig)
           console.log('Not all forms are filled');
         }
       }}
