@@ -11,7 +11,7 @@ export default function CreateRecords({setApp}) {
   const [name, setName] = React.useState("");
   const [things, setThings] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const [ready, setReady] = React.useState(false)
+  const [ready, setReady] = React.useState(true)
 
   const [youOwe, setyouOwe] = useState(true);
   const payload = {

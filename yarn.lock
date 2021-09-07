@@ -4975,6 +4975,11 @@
   "resolved" "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-2.0.0.tgz"
   "version" "2.0.0"
 
+"react-native-fade-in-out@^1.0.6":
+  "integrity" "sha512-rZxUEmiu+otPreKdxlv3piJvGe8WZt5zMyvZw0YXVV2LZdvaj6yqZOySDdBWt8zsGb4tIUR6vOC035f8SOJirw=="
+  "resolved" "https://registry.npmjs.org/react-native-fade-in-out/-/react-native-fade-in-out-1.0.6.tgz"
+  "version" "1.0.6"
+
 "react-native-gesture-handler@~1.10.2":
   "integrity" "sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz"

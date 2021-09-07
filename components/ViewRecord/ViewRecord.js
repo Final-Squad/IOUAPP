@@ -67,9 +67,9 @@ export default function ViewRecord({setApp}) {
           mock.map((rec) => {
             return !rec.paid ?
             rec.youOwe == true ?
-              <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{}} key={rec.id}>{`I owe ${rec.name} ${rec.thing} because ${rec.reason}\n`}</Text>
+              <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`I owe ${rec.name} ${rec.thing} because ${rec.reason}\n`}</Text>
               :
-              <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{}} key={rec.id}>{`${rec.name} owes me ${rec.thing} because ${rec.reason}\n`}</Text>
+              <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`${rec.name} owes me ${rec.thing} because ${rec.reason}\n`}</Text>
             :
             null
           })
@@ -84,9 +84,9 @@ export default function ViewRecord({setApp}) {
           mock.map((rec) => {
             return rec.paid ?
               rec.youOwe === true ?
-                <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{}} key={rec.id}>{`I paid ${rec.name} ${rec.thing}\n`}</Text>
+                <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`I paid ${rec.name} ${rec.thing}\n`}</Text>
                 :
-                <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{}} key={rec.id}>{`${rec.name} paid me ${rec.thing}\n`}</Text>
+                <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`${rec.name} paid me ${rec.thing}\n`}</Text>
               :
               null
           })
