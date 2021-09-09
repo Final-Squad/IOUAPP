@@ -1,107 +1,78 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, Button, TextInput } from 'react-native';
 import { useToast } from "react-native-toast-notifications";
-
-
-
+import styles from './styles';
+import { login } from '../../api';
 
 export default function Login({setApp}) {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [ready, setReady] = React.useState(true)
+  const [email, setEmail] = useState("");
+  const [user, setUser] = useState(null);
+  const [password, setPassword] = useState("");
+  const [ready, setReady] = useState(true);
 
-
-  const payload = {
-    email: email,
-    password: password
-  }
-
-  let pl = null
   const toast = useToast();
   const alertConfig = {
     type: 'danger',
     placement: "top",
     duration: 3000,
-    animationType: 'zoom-in'
+    animationType: 'zoom-in',
   }
 
+  const apiLoginUser = async () => {
+    if (email && password) {
+      setUser(await login(email, password));
 
+      if (user && user.user) {
+        setReady(true);
+        setApp('Front');
+      } else if (user && user.error) {
+        setReady(false);
+        setUser(null);
+        toast.show(user.error, alertConfig);
+      }
 
+    } else {
+      setReady(false);
+      toast.show("Invalid fields", alertConfig);
+    }
+  }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setEmail}
         value={email}
-        placeholder={ready ? "Your Email" : 'Please enter an Email!'}
+        placeholder={"Email"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='emailAddress'
       />
-  
+
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setPassword}
         value={password}
-        placeholder={ready ? "Your Password" : 'Please enter a valid Password!'}
+        placeholder={"Password"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType={'password'}
         secureTextEntry={true}
       />
       <View style={styles.buttons}>
-        <Button 
+        <Button
           color='black'
           title={'Log In'}
-          onPress={() => {
-            if (email && password) {
-              setReady(true)
-              setApp('Front');
-              pl = JSON.stringify(payload);
-            } else {
-              setReady(false);
-              toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-              console.log('Not all forms are filled');
-            }
-          }}
+          onPress={async () => await apiLoginUser()}
         />
 
         <Button
-        color='black'
-        title={'Sign Up!'}
-        onPress={async () => {
-          if (email && password) {
-            pl = JSON.stringify(payload);
-            // database stuff goes here
-
-            setReady(true)
+          color='black'
+          title={'Sign Up!'}
+          onPress={async () => {
             setApp('SignUp');
-          } else {
-            setReady(false);
-            toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-            console.log('Not all forms are filled');
-          }
-        }}
+          }}
         />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  buttons: {
-    display: 'flex',
-    flexDirection: 'row'
-  }
-});
