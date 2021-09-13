@@ -50,6 +50,7 @@ const words = [
   '"Thank you for being a friend Mo"',
   '"Thank you for your positivity Kaitlyn"',
   '"Thank you for everything Holberton/DAE"',
+  '"This is just the start!"'
 ]
 
 
@@ -64,7 +65,10 @@ export default function About({setApp}) {
   const [num, setNum] = useState(0)
 
 
-  React.useEffect(() => {newString()})
+  React.useEffect(() => {
+    newString();
+    return;}
+  )
 
   const newString = async() => {
     console.log(string)
@@ -91,7 +95,7 @@ export default function About({setApp}) {
         <View style={styles.content}>
           <Text style={styles.text}>
             Two years ago we started our journey at holberton school. It was long and tiresome, hard at times but very fun. We definitly grew so much for being here.
-            Thanks to everyone that was part of the experience.
+            Thanks to everyone that was part of the experience. This is just the start!
           </Text>
         </View>
 
