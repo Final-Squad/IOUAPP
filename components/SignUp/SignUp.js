@@ -86,28 +86,41 @@ export default function SignUp({setApp}) {
         secureTextEntry={true}
       />
 
-      <Button
-      title={'Sign Up!'}
-      onPress={async () => {
-        setVerified(password === verify)
-        if (email && password && verify && firstName && lastName) {
-          if (!verified) {
-            toast.show("Passwords arent the same")
+      <View style={styles.buttons}>
+        <Button
+        color='black'
+        title={'Sign Up!'}
+        onPress={async () => {
+          setVerified(password === verify)
+          if (email && password && verify && firstName && lastName) {
+            if (!verified) {
+              toast.show("Passwords arent the same")
+            } else {
+
+              pl = JSON.stringify(payload);
+              // database stuff goes here
+
+              setReady(true)
+              setApp('Front');
+            }
           } else {
-
-            pl = JSON.stringify(payload);
-            // database stuff goes here
-
-            setReady(true)
-            setApp('Front');
+            setReady(false);
+            toast.show("Not all fields have been filled, please fill them in.", alertConfig)
+            console.log('Not all forms are filled');
           }
-        } else {
-          setReady(false);
-          toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-          console.log('Not all forms are filled');
-        }
-      }}
-      />
+        }}
+        />
+
+          <Button 
+            color='black'
+            title="Back"
+            onPress={
+              () => {
+                setApp('Front')
+              }
+            }
+        />
+      </View>
     </View>
   );
 }
@@ -123,4 +136,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    display: 'flex',
+    flexDirection: 'row',
+  }
 });

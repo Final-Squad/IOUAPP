@@ -30,6 +30,25 @@ export default function Front({setApp}) {
               setApp('View')
             }}
           />
+          <Button 
+            color='black'
+            title="About Page"
+            onPress={
+              () => {
+                setApp('About')
+              }
+            }
+          />
+
+          <Button 
+            color='black'
+            title="Log Out"
+            onPress={
+              () => {
+                setApp('Login')
+              }
+            }
+          />
         </View>
       {/* </ImageBackground> */}
     </View>

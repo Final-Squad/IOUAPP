@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, Button, TextInput } from 'react-native';
 import { useToast } from "react-native-toast-notifications";
 import styles from './styles';
@@ -19,23 +19,29 @@ export default function Login({setApp}) {
   }
 
   const apiLoginUser = async () => {
+    console.log('before', email, password)
+
     if (email && password) {
       setUser(await login(email, password));
-
-      if (user && user.user) {
-        setReady(true);
-        setApp('Front');
-      } else if (user && user.error) {
-        setReady(false);
-        setUser(null);
-        toast.show(user.error, alertConfig);
-      }
-
     } else {
       setReady(false);
       toast.show("Invalid fields", alertConfig);
     }
   }
+
+  useEffect(() => {
+    console.log('after', email, password)
+    if (user && user.user) {
+      setReady(true);
+      setApp('Front');
+    } else if (user && user.error) {
+      setReady(false);
+      setUser(null);
+      toast.show(user.error, alertConfig);
+    }
+  }, [user])
+
+
 
   return (
     <View style={styles.container}>
@@ -68,10 +74,19 @@ export default function Login({setApp}) {
         <Button
           color='black'
           title={'Sign Up!'}
-          onPress={async () => {
+          onPress={() => {
             setApp('SignUp');
           }}
         />
+        <Button 
+          color='black'
+          title="Test"
+          onPress={
+            () => {
+              setApp('Front')
+            }
+          }
+      />
       </View>
     </View>
   );

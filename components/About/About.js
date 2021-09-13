@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import { StyleSheet, Text, View, Button, Animated } from 'react-native';
 import { ImageBackground } from 'react-native';
 import FadeInOut from 'react-native-fade-in-out';
+import Emoji from 'react-native-emoji';
 
 const image = {}
 
@@ -17,10 +18,10 @@ const words = [
   '"Made with a lot of love."',
   '"Quarentine Mission."',
   '"Drifting further and further away from the start."',
-  '"Marcelo likes java."',
+  '"Marcelo likes Java."',
   '"Sorry no blockchain... yet."',
   '"I know you`ll miss us but we have to go."',
-  '"Did we make you happy, Mr. Bitcoin."',
+  '"Did we make you happy Betty?"',
   '"There`s no gong but we still got the job."',
   '"We might continue to work on this."',
   '"Not bad for our first app."',
@@ -38,10 +39,17 @@ const words = [
   '"They don`t make them like this... till now."',
   '"Currently hacking... into your heart."',
   '"Feel free to send your love to us."',
-  '"We knew nothing."',
-  '"Now we can make apps"',
-  '"I dont know how long ill be around..."',
-  '"but I`d like to enjoy it."'
+  '"We knew nothing..."',
+  '"now we make apps."',
+  '"I dont know how long I`ll be around..."',
+  '"but I`d like to enjoy it."',
+  '"Teach your children how to code."',
+  '"Thank for your hard work and motivation Ashley"',
+  '"Thank God for Kay"',
+  '"Thank you for your wisdom Al"',
+  '"Thank you for being a friend Mo"',
+  '"Thank you for your positivity Kaitlyn"',
+  '"Thank you for everything Holberton/DAE"',
 ]
 
 
@@ -54,43 +62,18 @@ function sleep(ms) {
 export default function About({setApp}) {
   const [string, setString] = useState('Hello')
   const [num, setNum] = useState(0)
-  const fadeAnim = useRef(new Animated.Value(0)).current
-
-  React.useEffect(() => {
-    Animated.timing(
-      fadeAnim,
-      {
-        toValue: 1,
-        duration: 10000,
-      }
-    ).start();
-  }, [string])
 
 
-  // React.useEffect(() => {
-  //   async() => {
-  //     console.log('newString')
-  //     sleep(5000)
-
-  //     setNum((num % words.length) + 1)
-  //     console.log("string is", string)
-
-  //     setString(words[num % words.length])
-  //   }
-  // }, [string])
+  React.useEffect(() => {newString()})
 
   const newString = async() => {
-
-    console.log('newString')
-    await sleep(5000)
-
+    console.log(string)
+    await sleep(3000)
     setNum((num % words.length) + 1)
-    console.log("string is", string)
-
     setString(words[num % words.length])
+    await sleep(3000)
+
   }
-
-
 
   return (
     <View style={styles.container}>
@@ -101,8 +84,15 @@ export default function About({setApp}) {
           </Text>
         </View>
 
-        <View style={{opacity: fadeAnim}}>
-            <Text style={styles.title}>{newString() && string}</Text>
+        <View>
+            <Text style={styles.title}>{string}</Text>
+        </View>
+
+        <View style={styles.content}>
+          <Text style={styles.text}>
+            Two years ago we started our journey at holberton school. It was long and tiresome, hard at times but very fun. We definitly grew so much for being here.
+            Thanks to everyone that was part of the experience.
+          </Text>
         </View>
 
         <View style={styles.buttons}>
@@ -121,7 +111,9 @@ export default function About({setApp}) {
 
 const styles = StyleSheet.create({
   container: {
-    padding: '10%'
+    padding: '10%',
+    backgroundColor: 'pink'
+    
   },
   titleContainer: {
     marginBottom: 50,
@@ -134,5 +126,11 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 50,
     opacity: .3
+  },
+  content: {
+    padding: '10%'
+  },
+  text: {
+    textAlign: 'auto'
   }
 });

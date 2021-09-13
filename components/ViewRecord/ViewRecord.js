@@ -1,46 +1,39 @@
-import React, {useState, useMemo} from 'react';
+import React, {useState, useMemo, useEffect} from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Share } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 
 const mock = require('../../assets/MOCK_DATA.json')
 const date = new Date()
 
-function getObj(id) {
-  return mock.filter((i) => {
-    return i.id===id
-  })[0]
-}
-
-
 
 export default function ViewRecord({setApp}) {
-  const [infoComp, setinfoComp] = useState(false)
-  const [id, setid] = useState(0)
   const [paid, setpaid] = useState(false)
+  const [OweFilter, setOweFilter] = useState(true)
 
 
-  const infoView = () => {
-    console.log(id)
-    if (paid) {
-      setpaid(false)
-    }
-    const obj = getObj(id);
+  useEffect(() => {
+    setpaid(false)
+  }, [paid])
 
 
+  const Card = ({obj}) => {
     return (
-    <View style={{backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute', width: '100%', height: '120%', bottom: 0}}>
-      <View style={{backgroundColor: 'black', width: '90%', height: '80%', left: '5%', top: '13%' , position: 'absolute', padding: 50}}>
-        <Text style={{textAlign: 'center', color: 'white'}}>Title: {obj.youOwe ? `I owe ${obj.name}` : `${obj.name} owes me`}</Text>
+      <View style={styles.card}>
+        <View style={{paddingVertical: 30}}>
+          { !obj.paid ?
+            obj.youOwe ? <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>I owe {obj.name}</Text> : <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>{obj.name} owes me</Text>
+          :
+            obj.youOwe ? <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>I paid {obj.name}</Text> : <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>{obj.name} paid me</Text>
+        }
 
-        <Text style={{textAlign: 'center', color: 'white'}}>{`Name: ${obj.name}`}</Text>
+          
+        </View>
+         <Text style={{textAlign: 'center', color: 'white'}}>{`Name: ${obj.name}`}</Text>
         <Text style={{textAlign: 'center', color: 'white'}}>{`Awaited Item: ${obj.thing}`}</Text>
         <Text style={{textAlign: 'center', color: 'white'}}>{`Waiting Since: ${obj.startDate}`}</Text>
         {obj.paid ? <Text style={{textAlign: 'center', color: 'white'}}>{`Paid on: ${obj.endDate}`}</Text> : null}
 
-        {/* db code for mark as paid */}
 
-        {!obj.paid && <Button style={{textAlign: 'center', color: 'white'}} title='Mark as Paid?' onPress={() => {obj.paid = true; obj.endDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`; setpaid(true); console.log("obj ->", obj)}}/>}
-        <Button style={{textAlign: 'center', color: 'white'}} onPress={() => setinfoComp(false)} title='Done'/>
+        {!obj.paid && <Button style={{textAlign: 'center', color: 'white'}} title='Mark as Paid?' onPress={() => {obj.paid = true; obj.endDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`; setpaid(true)}}/>}
         {!obj.paid && <Button
         title={'Send them a reminder'}
         onPress={async () => {
@@ -49,8 +42,8 @@ export default function ViewRecord({setApp}) {
           })
         }}
         />}
+
       </View>
-    </View>
     )
   }
   
@@ -58,41 +51,54 @@ export default function ViewRecord({setApp}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{'Records\n'}</Text>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', paddingLeft: '20%', paddingRight: '20%' }}>
+        <Text onPress={() => {setOweFilter(true)}} style={[OweFilter && styles.filter, styles.filters]}>Me to You</Text>
+        <Text onPress={() => {setOweFilter(false)}} style={[!OweFilter && styles.filter, styles.filters]}>You to Me</Text>
+      </View>
+
       <Text style={styles.header}>Dues To Be Paid</Text>
+      <View style={{paddingHorizontal: 20 }}>
       <ScrollView
       showsVerticalScrollIndicator={false}
-      style={{paddingHorizontal: 20}}
+      horizontal={true}
+      style={{ display: 'flex', flexDirection: 'row'}}
       >
         {
           mock.map((rec) => {
             return !rec.paid ?
-            rec.youOwe == true ?
-              <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`I owe ${rec.name} ${rec.thing} because ${rec.reason}\n`}</Text>
+            rec.youOwe ?
+              OweFilter && <Card key={rec.id} obj={rec}/>
               :
-              <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`${rec.name} owes me ${rec.thing} because ${rec.reason}\n`}</Text>
+              !OweFilter && <Card key={rec.id} obj={rec}/>
             :
             null
           })
         }
       </ScrollView>
-      <Text style={styles.header}>Paid Dues</Text>
-      <ScrollView
-      showsVerticalScrollIndicator={false}
-      style={{paddingHorizontal: 20}}
-      >
-        {
-          mock.map((rec) => {
-            return rec.paid ?
-              rec.youOwe === true ?
-                <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`I paid ${rec.name} ${rec.thing}\n`}</Text>
-                :
-                <Text onPress={() => {setinfoComp(true); setid(rec.id)}} style={{textAlign: 'center'}} key={rec.id}>{`${rec.name} paid me ${rec.thing}\n`}</Text>
-              :
-              null
-          })
-        }
+      </View >
 
-      </ScrollView>
+      <Text style={styles.header}>Paid Dues</Text>
+      <View style={{ paddingHorizontal: 20 }}>
+        <ScrollView
+        showsVerticalScrollIndicator={false}
+        horizontal={true}
+        style={{ display: 'flex', flexDirection: 'row'}}
+        >
+          {
+            mock.map((rec) => {
+              return rec.paid ?
+                rec.youOwe ?
+                  OweFilter && <Card key={rec.id} obj={rec}/>
+                  :
+                  !OweFilter && <Card key={rec.id} obj={rec}/>
+                :
+                null
+            })
+          }
+
+        </ScrollView>
+      </View>
+
       <Button 
           color='black'
           title="Done"
@@ -102,9 +108,6 @@ export default function ViewRecord({setApp}) {
             }
           }
       />
-      {
-        infoComp && infoView()
-      }
     </View>
   );
 }
@@ -129,5 +132,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     fontWeight: 'bold'
+  },
+  filter: {
+    backgroundColor: 'red'
+  },
+  filters: {
+    padding: '5%'
+  },
+  card: {
+    backgroundColor: 'black',
+    width: 350,
+    height: 250,
+    margin: 10,
   }
 });

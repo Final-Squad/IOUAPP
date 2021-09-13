@@ -12,7 +12,7 @@ import { ToastProvider } from 'react-native-toast-notifications';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [appState, setappState] = useState('Login')
+  const [appState, setappState] = useState('View')
 
   
 

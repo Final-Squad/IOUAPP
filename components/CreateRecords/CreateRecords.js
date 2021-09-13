@@ -90,6 +90,14 @@ export default function CreateRecords({setApp}) {
           }}
         />
 
+        <Button 
+          color='black'
+          title={'Back'}
+          onPress={() => {
+              setApp('Front');
+          }}
+        />
+
         <Button
         color='black'
         title={'Share & Save'}
