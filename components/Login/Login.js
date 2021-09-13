@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, Button, TextInput } from 'react-native';
+import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import { useToast } from "react-native-toast-notifications";
 import styles from './styles';
 import { login } from '../../api';
@@ -45,6 +45,10 @@ export default function Login({setApp}) {
 
   return (
     <View style={styles.container}>
+      <Text style={jstyles.title}>
+        IOU<Text style={jstyles.apps}>APP</Text>
+      </Text>
+
       <Text style={styles.title}>Login</Text>
       <TextInput
         style={ready ? styles.input : styles.inputErr }
@@ -91,3 +95,17 @@ export default function Login({setApp}) {
     </View>
   );
 }
+
+const jstyles = StyleSheet.create({
+  titleContainer: {
+    marginBottom: 300,
+  },
+  title: {
+    fontSize: 50,
+  },
+  apps: {
+    color: 'red',
+    fontSize: 50,
+    opacity: .3
+  }
+});

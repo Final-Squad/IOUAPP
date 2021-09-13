@@ -63,20 +63,20 @@ function sleep(ms) {
 export default function About({setApp}) {
   const [string, setString] = useState('Hello')
   const [num, setNum] = useState(0)
+  const [run, setRun] = useState(true)
 
 
   React.useEffect(() => {
-    newString();
-    return;}
-  )
+    run && newString();
+    return;
+  })
 
-  const newString = async() => {
+  const newString = () => {
     console.log(string)
-    await sleep(3000)
-    setNum((num % words.length) + 1)
-    setString(words[num % words.length])
-    await sleep(3000)
-
+    sleep(3000).finally(() => {
+      setNum((num % words.length) + 1)
+      setString(words[num % words.length])
+    })
   }
 
   return (
@@ -104,6 +104,7 @@ export default function About({setApp}) {
             title="Go Back" 
             color="black"
             onPress={() => {
+              setRun(false)
               setApp('Front')
             }}
           />

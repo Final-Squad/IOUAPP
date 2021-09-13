@@ -12,6 +12,7 @@ export default function ViewRecord({setApp}) {
 
   useEffect(() => {
     setpaid(false)
+    return ;
   }, [paid])
 
 
@@ -64,6 +65,7 @@ export default function ViewRecord({setApp}) {
       style={{ display: 'flex', flexDirection: 'row'}}
       >
         {
+
           mock.map((rec) => {
             return !rec.paid ?
             rec.youOwe ?

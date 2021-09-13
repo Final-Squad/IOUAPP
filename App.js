@@ -12,7 +12,7 @@ import { ToastProvider } from 'react-native-toast-notifications';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [appState, setappState] = useState('View')
+  const [appState, setappState] = useState('Splash')
 
   
 
@@ -24,6 +24,7 @@ export default function App() {
       >
         <KeyboardAvoidingView behavior="position" enabled keyboardVerticalOffset={0}>
           {
+            appState === 'Splash' && <Splash setApp={setappState}/> ||
             appState === 'About' && <About setApp={setappState}/> ||
             appState === 'SignUp' && <SignUp setApp={setappState}/> ||
             appState === 'Login' && <Login setApp={setappState}/> ||
