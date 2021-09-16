@@ -124,7 +124,7 @@ export default function SignUp({setApp}) {
             title="Back"
             onPress={
               () => {
-                setApp('Front')
+                setApp('Login')
               }
             }
         />
