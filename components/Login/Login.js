@@ -45,9 +45,11 @@ export default function Login({setApp}) {
 
   return (
     <View style={styles.container}>
-      <Text style={jstyles.title}>
-        IOU<Text style={jstyles.apps}>APP</Text>
-      </Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>
+          IOU<Text style={styles.apps}>APP</Text>
+        </Text>
+      </View>
 
       <Text style={styles.title}>Login</Text>
       <TextInput
