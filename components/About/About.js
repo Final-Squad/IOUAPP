@@ -107,6 +107,10 @@ export default function About({setApp}) {
             }}
           />
         </View>
+
+        <View>
+          <Text color='red'>Holberton</Text> <Text>X</Text> <Text>D</Text><Text color='red'>A</Text> <Text>+</Text> <Text color='purple'>E</Text>
+        </View>
       {/* </ImageBackground> */}
     </View>
   );
