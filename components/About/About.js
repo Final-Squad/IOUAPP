@@ -1,7 +1,5 @@
 import React, {useState, useRef} from 'react';
 import { StyleSheet, Text, View, Button, Animated } from 'react-native';
-import { ImageBackground } from 'react-native';
-import FadeInOut from 'react-native-fade-in-out';
 import Emoji from 'react-native-emoji';
 
 const image = {}

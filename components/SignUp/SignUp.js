@@ -45,7 +45,7 @@ export default function SignUp({setApp}) {
   }
 
   useEffect(() => {
-    console.log('We here')
+    console.log('We here', user)
     if (user && user.user) {
       setReady(true);
       setApp('Front');
