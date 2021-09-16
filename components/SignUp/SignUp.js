@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { useToast } from "react-native-toast-notifications";
-
+import { createUser } from '../../api';
 
 
 
@@ -11,6 +11,8 @@ export default function SignUp({setApp}) {
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [user, setUser] = React.useState(null);
+
 
   const [ready, setReady] = React.useState(true)
   const [verified, setVerified] = React.useState(true)
@@ -25,6 +27,34 @@ export default function SignUp({setApp}) {
     verficationPass: verify,
 
   }
+
+  const apiCreateUser = async () => {
+    console.log('before', email, password)
+    setVerified(password === verify)
+    if (email && password && verify && firstName && lastName) {
+      if (!verified) {
+        toast.show("Passwords arent the same")
+        setReady(false);
+      } else {
+        setUser(await createUser(firstName, lastName, email, password));
+      }
+    } else {
+      setReady(false);
+      toast.show("Not all fields have been filled, please fill them in.", alertConfig)
+    }
+  }
+
+  useEffect(() => {
+    console.log('We here')
+    if (user && user.user) {
+      setReady(true);
+      setApp('Front');
+    } else if (user && user.error) {
+      setReady(false);
+      setUser(null);
+      toast.show(user.error, alertConfig);
+    }
+  }, [user])
 
   let pl = null
   const toast = useToast();
@@ -65,17 +95,17 @@ export default function SignUp({setApp}) {
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='emailAddress'
       />
-  
+
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
         value={password}
-        placeholder={ready ? "Your Password" : 'Please enter a valid Password!'}
+        placeholder={ready ? "Verfy Password" : 'Words aren`t the same!'}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='password'
         secureTextEntry={true}
       />
-
+  
       <TextInput
         style={styles.input}
         onChangeText={setVerify}
@@ -90,27 +120,7 @@ export default function SignUp({setApp}) {
         <Button
         color='black'
         title={'Sign Up!'}
-        onPress={async () => {
-          setVerified(password === verify)
-          if (email && password && verify && firstName && lastName) {
-            if (!verified) {
-              toast.show("Passwords arent the same")
-            } else {
-
-              pl = JSON.stringify(payload);
-              // database stuff goes here
-
-              setReady(true)
-              setApp('Front');
-            }
-          } else {
-            setReady(false);
-            toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-            console.log('Not all forms are filled');
-          }
-        }}
-        />
-
+        onPress={async () => await apiCreateUser()}/>
           <Button 
             color='black'
             title="Back"
