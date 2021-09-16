@@ -2,6 +2,7 @@ import React, {useReducer, useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useToast } from "react-native-toast-notifications";
+import { createDebtcard } from '../../api';
 
 
 const date = new Date()
@@ -22,7 +23,6 @@ export default function CreateRecords({setApp}) {
     amount: amount
   }
 
-  let pl = null
   const toast = useToast();
   const alertConfig = {
     type: 'danger',
@@ -46,23 +46,23 @@ export default function CreateRecords({setApp}) {
       <TextInput
         style={styles.input}
         onChangeText={setName}
-        value={name}
+        value={otherEmail}
         placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "Name of the person you owe/owes you." : 'Please enter a name!'}
       />
 
       <TextInput
         style={styles.input}
-        onChangeText={setThings}
-        value={things}
+        onChangeText={setReason}
+        value={reason}
         placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "What is owed?" : 'Please enter the item that is owed!'}
       />
 
       <TextInput
         style={styles.input}
-        onChangeText={setReason}
-        value={reason}
+        onChangeText={setAmount}
+        value={amount}
         placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "What is the Reason?" : 'Please enter a reason!'}
       />
@@ -71,12 +71,14 @@ export default function CreateRecords({setApp}) {
         <Button
           color='black'
           title={'Save'}
-          onPress={() => {
-            if (name && things && reason) {
-              // database stuff goes here
+          onPress={async () => {
+            if (otherEmail && reason && amount) {
+              const debtCard = await createDebtcard(
+                payload.payer, payload.receiver,
+                payload.reason, payload.amount
+              );
               setReady(true)
               setApp('View');
-              pl = JSON.stringify(payload);
             } else {
               setReady(false);
               toast.show("Not all fields have been filled, please fill them in.", alertConfig)
