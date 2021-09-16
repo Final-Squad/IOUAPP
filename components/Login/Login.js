@@ -99,8 +99,8 @@ export default function Login({setApp, user, setUser}) {
 
 const jstyles = StyleSheet.create({
   titleContainer: {
-    marginBottom: 300,
-    paddingLeft: 55,
+    position: 'absolute',
+    top: 50
   },
   title: {
     fontSize: 50,
