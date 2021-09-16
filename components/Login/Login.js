@@ -45,9 +45,9 @@ export default function Login({setApp}) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          IOU<Text style={styles.apps}>APP</Text>
+      <View style={jstyles.titleContainer}>
+        <Text style={jstyles.title}>
+          IOU<Text style={jstyles.apps}>APP</Text>
         </Text>
       </View>
 
@@ -101,6 +101,7 @@ export default function Login({setApp}) {
 const jstyles = StyleSheet.create({
   titleContainer: {
     marginBottom: 300,
+    paddingLeft: 55,
   },
   title: {
     fontSize: 50,
