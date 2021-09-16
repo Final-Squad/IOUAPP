@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useToast } from "react-native-toast-notifications";
@@ -8,20 +8,18 @@ const date = new Date()
 
 
 export default function CreateRecords({setApp}) {
-  const [name, setName] = React.useState("");
-  const [things, setThings] = React.useState("");
+  const [otherEmail, setOtherEmail] = React.useState("");
+  const [amount, setAmount] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [ready, setReady] = React.useState(true)
 
   const [youOwe, setyouOwe] = useState(true);
+
   const payload = {
-    youOwe: youOwe,
-    name: name,
-    thing: things,
+    payer: youOwe ? user.email : otherEmail,
+    receiver: !youOwe ? otherEmail : user.email,
     reason: reason,
-    startDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
-    endDate: null,
-    paid: false
+    amount: amount
   }
 
   let pl = null
@@ -32,9 +30,6 @@ export default function CreateRecords({setApp}) {
     duration: 3000,
     animationType: 'zoom-in'
   }
-
-
-
 
   return (
     <View>
@@ -47,7 +42,7 @@ export default function CreateRecords({setApp}) {
         <Picker.Item label="I owe Someone" value={true} />
         <Picker.Item label="Someone owes Me" value={false} />
       </Picker>
-  
+
       <TextInput
         style={styles.input}
         onChangeText={setName}
@@ -55,7 +50,7 @@ export default function CreateRecords({setApp}) {
         placeholderTextColor={ready ? 'black' : 'red'}
         placeholder={ready ? "Name of the person you owe/owes you." : 'Please enter a name!'}
       />
-  
+
       <TextInput
         style={styles.input}
         onChangeText={setThings}
@@ -73,7 +68,7 @@ export default function CreateRecords({setApp}) {
       />
 
       <View style={styles.buttons}>
-        <Button 
+        <Button
           color='black'
           title={'Save'}
           onPress={() => {
@@ -90,7 +85,7 @@ export default function CreateRecords({setApp}) {
           }}
         />
 
-        <Button 
+        <Button
           color='black'
           title={'Back'}
           onPress={() => {

@@ -120,7 +120,7 @@ export const createDebtcard = async (
   const debtcardObj = { payer, receiver, reason, amount };
   const debtcard = await fetch(
     `${API_URL}/debtcards`,
-    { method: 'POST', body: JSON.stringify(debtcardObj) }
+    POST_INFO(debtcardObj)
     ).then(res => res.json())
     .then(debtcard => debtcard)
   return debtcard;
