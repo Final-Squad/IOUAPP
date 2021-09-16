@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
 import { StyleSheet, Text, View, Button, Animated } from 'react-native';
+// import Emoji from 'react-native-emoji';
 
 const image = {}
 
@@ -108,7 +109,7 @@ export default function About({setApp}) {
         </View>
 
         <View>
-          <Text>Love for </Text> <Text color='red'>Holberton</Text> <Text>X</Text> <Text>D</Text><Text color='red'>A</Text> <Text>+</Text> <Text color='purple'>E</Text>
+          <Text style={{textAlign: 'center'}}>Love for <Text style={{color: 'red'}}>Holberton</Text><Text> / </Text><Text>D</Text><Text style={{color: 'red'}}>A</Text>+<Text style={{color: 'purple'}}>E</Text></Text>
         </View>
       {/* </ImageBackground> */}
     </View>

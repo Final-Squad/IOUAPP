@@ -5,7 +5,7 @@ const mock = require('../../assets/MOCK_DATA.json')
 const date = new Date()
 
 
-export default function ViewRecord({setApp, user}) {
+export default function ViewRecord({setApp, loggedUser}) {
   const [paid, setpaid] = useState(false)
   const [OweFilter, setOweFilter] = useState(true)
 

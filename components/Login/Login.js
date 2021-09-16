@@ -4,10 +4,13 @@ import { useToast } from "react-native-toast-notifications";
 import styles from './styles';
 import { login } from '../../api';
 
-export default function Login({setApp, user, setUser}) {
+export default function Login({setApp, loggedUser, setloggedUser}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ready, setReady] = useState(true);
+  const [user, setUser] = useState(loggedUser)
+    
+
 
   const toast = useToast();
   const alertConfig = {
@@ -31,6 +34,7 @@ export default function Login({setApp, user, setUser}) {
   useEffect(() => {
     console.log('after', email, password)
     if (user && user.user) {
+      setloggedUser(user)
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {
@@ -50,6 +54,7 @@ export default function Login({setApp, user, setUser}) {
         </Text>
       </View>
 
+      <Text style={styles.title}>Login</Text>
       <TextInput
         style={ready ? styles.input : styles.inputErr }
         onChangeText={setEmail}
@@ -87,6 +92,7 @@ export default function Login({setApp, user, setUser}) {
           title="Test"
           onPress={
             () => {
+              console.log('test')
               setApp('Front')
             }
           }
@@ -98,9 +104,8 @@ export default function Login({setApp, user, setUser}) {
 
 const jstyles = StyleSheet.create({
   titleContainer: {
-    position: 'fixed',
-    top: 50,
-    paddingLeft: 55
+    marginBottom: 150,
+    paddingLeft: 55,
   },
   title: {
     fontSize: 50,

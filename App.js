@@ -11,7 +11,7 @@ import { ToastProvider } from 'react-native-toast-notifications';
 
 
 export default function App() {
-  const [user, setUser] = useState(null)
+  const [loggedUser, setloggedUser] = useState(null)
   const [appState, setappState] = useState('Splash')
 
   
@@ -26,11 +26,11 @@ export default function App() {
           {
             appState === 'Splash' && <Splash setApp={setappState}/> ||
             appState === 'About' && <About setApp={setappState}/> ||
-            appState === 'SignUp' && <SignUp setApp={setappState, user, setUser}/> ||
-            appState === 'Login' && <Login setApp={setappState, user, setUser}/> ||
-            appState === 'Front' && <Front setApp={setappState, setUser}/> ||
-            appState === 'Create' && <CreateRecords setApp={setappState, user}/> ||
-            appState === 'View' && <ViewRecord setApp={setappState, user}/>
+            appState === 'SignUp' && <SignUp setApp={setappState} setloggedUser={setloggedUser} /> ||
+            appState === 'Login' && <Login setApp={setappState} setloggedUser={setloggedUser} loggedUser={loggedUser}/> ||
+            appState === 'Front' && <Front setApp={setappState} setloggedUser={setloggedUser}/> ||
+            appState === 'Create' && <CreateRecords setApp={setappState} loggedUser={loggedUser}/> ||
+            appState === 'View' && <ViewRecord setApp={setappState} loggedUser={loggedUser}/>
           }
         </KeyboardAvoidingView>
       </ScrollView>
