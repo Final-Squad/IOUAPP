@@ -1,6 +1,5 @@
 import React, {useState, useRef} from 'react';
 import { StyleSheet, Text, View, Button, Animated } from 'react-native';
-import Emoji from 'react-native-emoji';
 
 const image = {}
 

@@ -29,7 +29,6 @@ export default function SignUp({setApp}) {
   }
 
   const apiCreateUser = async () => {
-    console.log('before', email, password)
     setVerified(password === verify)
     if (email && password && verify && firstName && lastName) {
       if (!verified) {
@@ -45,7 +44,6 @@ export default function SignUp({setApp}) {
   }
 
   useEffect(() => {
-    console.log('We here', user)
     if (user && user.user) {
       setReady(true);
       setApp('Front');

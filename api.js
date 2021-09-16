@@ -1,4 +1,18 @@
 export const API_URL = 'https://api.iamramos.tech';
+export const POST_INFO = (data) => {
+  return {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify(data)
+  }
+}
 
 /**
  * check api status
@@ -49,8 +63,7 @@ export const createUser = async (
 ) => {
   const userObj = { firstName, lastName, email, password };
   const user = await fetch(
-    `${API_URL}/users`,
-    { method: 'POST', body: JSON.stringify(userObj) }
+    `${API_URL}/users`, POST_INFO(userObj)
     ).then(res => res.json())
     .then(_user => _user);
   return user
