@@ -50,7 +50,6 @@ export default function Login({setApp, user, setUser}) {
         </Text>
       </View>
 
-      <Text style={styles.title}>Login</Text>
       <TextInput
         style={ready ? styles.input : styles.inputErr }
         onChangeText={setEmail}
@@ -99,8 +98,9 @@ export default function Login({setApp, user, setUser}) {
 
 const jstyles = StyleSheet.create({
   titleContainer: {
-    position: 'absolute',
-    top: 50
+    position: 'fixed',
+    top: 50,
+    paddingLeft: 55
   },
   title: {
     fontSize: 50,
