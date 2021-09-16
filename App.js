@@ -11,7 +11,7 @@ import { ToastProvider } from 'react-native-toast-notifications';
 
 
 export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null)
   const [appState, setappState] = useState('Splash')
 
   
@@ -26,11 +26,11 @@ export default function App() {
           {
             appState === 'Splash' && <Splash setApp={setappState}/> ||
             appState === 'About' && <About setApp={setappState}/> ||
-            appState === 'SignUp' && <SignUp setApp={setappState}/> ||
-            appState === 'Login' && <Login setApp={setappState}/> ||
-            appState === 'Front' && <Front setApp={setappState}/> ||
-            appState === 'Create' && <CreateRecords setApp={setappState}/> ||
-            appState === 'View' && <ViewRecord setApp={setappState}/>
+            appState === 'SignUp' && <SignUp setApp={setappState, user, setUser}/> ||
+            appState === 'Login' && <Login setApp={setappState, user, setUser}/> ||
+            appState === 'Front' && <Front setApp={setappState, setUser}/> ||
+            appState === 'Create' && <CreateRecords setApp={setappState, user}/> ||
+            appState === 'View' && <ViewRecord setApp={setappState, user}/>
           }
         </KeyboardAvoidingView>
       </ScrollView>

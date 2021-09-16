@@ -4,9 +4,8 @@ import { useToast } from "react-native-toast-notifications";
 import styles from './styles';
 import { login } from '../../api';
 
-export default function Login({setApp}) {
+export default function Login({setApp, user, setUser}) {
   const [email, setEmail] = useState("");
-  const [user, setUser] = useState(null);
   const [password, setPassword] = useState("");
   const [ready, setReady] = useState(true);
 

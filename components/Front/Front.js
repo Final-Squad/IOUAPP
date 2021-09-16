@@ -5,7 +5,7 @@ import { ImageBackground } from 'react-native';
 const image = {}
 
 
-export default function Front({setApp}) {
+export default function Front({setApp, setUser}) {
   return (
     <View style={styles.container}>
       {/* <ImageBackground source={image} resizeMode="cover"> */}
@@ -45,6 +45,7 @@ export default function Front({setApp}) {
             title="Log Out"
             onPress={
               () => {
+                setUser(null)
                 setApp('Login')
               }
             }

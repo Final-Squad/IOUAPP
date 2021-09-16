@@ -7,7 +7,7 @@ import { useToast } from "react-native-toast-notifications";
 const date = new Date()
 
 
-export default function CreateRecords({setApp}) {
+export default function CreateRecords({setApp, user}) {
   const [name, setName] = React.useState("");
   const [things, setThings] = React.useState("");
   const [reason, setReason] = React.useState("");
