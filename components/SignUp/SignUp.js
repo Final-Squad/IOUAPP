@@ -5,13 +5,13 @@ import { createUser } from '../../api';
 
 
 
-export default function SignUp({setApp}) {
+export default function SignUp({setApp, loggedUser, setloggedUser}) {
   const [firstName, setFirstName] = React.useState("");
   const [verify, setVerify] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState(loggedUser);
 
 
   const [ready, setReady] = React.useState(true)
@@ -45,6 +45,7 @@ export default function SignUp({setApp}) {
 
   useEffect(() => {
     if (user && user.user) {
+      setloggedUser(user)
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {
