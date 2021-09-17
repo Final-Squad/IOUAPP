@@ -21,7 +21,7 @@ export default function Login({setApp}) {
 
   useEffect(() => {
     if (user && user.user) {
-      console.log("user - >", user);
+      console.log("user - >", user, user.user.email);
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {

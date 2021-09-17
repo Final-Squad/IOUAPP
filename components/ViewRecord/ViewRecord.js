@@ -11,11 +11,21 @@ const date = new Date()
 export default function ViewRecord({setApp}) {
   const [paid, setpaid] = useState(false)
   const [OweFilter, setOweFilter] = useState(true)
+  const [payers, setPayers] = useState()
+  const [recievers, setRecievers] = useState()
   const {user} = useContext(UserContext)
 
+  const getData = async () => {
+    console.log('set Recievers and payers')
+    setRecievers(await getDebtcardForUserByDebtType(user.user.email, 'reciever'))
+    setPayers(await getDebtcardForUserByDebtType(user.user.email, 'payer'))
+  }
+
+  useEffect(() => {getData()}, [recievers, payers])
+
   useEffect(() => {
+    console.log('this runs at start')
     setpaid(false)
-    return ;
   }, [paid])
 
   const Card = async ({debtCard, youOwe, paid}) => {
@@ -64,17 +74,25 @@ export default function ViewRecord({setApp}) {
    * @param {*} debtCardType payer || receiver
    * @returns debtCards
    */
-  const cards = async (debtCardType) => {
-    const debtCards = await getDebtcardForUserByDebtType(user.email, debtCardType);
-    return debtCards.debtCards.map((debtCard) => {
-      return (
-        <Card
-          debtCard={debtCard}
-          youOwe={debtCard.payer === user.email}
-          paid={debtCard.paid}
-        ></Card>
-      );
-    });
+  const Cards = ({debtCardType}) => {
+    const debtCard = debtCardType == 'payer' ? payers : recievers;
+    
+    return (
+      (debtCard && debtCard.debtCard.length) ? <>
+        {
+          debtCards.debtCards.map((debtCard) => {
+          return (
+            <Card
+              debtCard={debtCard}
+              youOwe={debtCard.payer === user.user.email}
+              paid={debtCard.paid}
+            />
+          );
+        })
+        }
+      </> :
+        <Text>Nothing yet!</Text>
+    )
   }
 
   return (
@@ -91,7 +109,9 @@ export default function ViewRecord({setApp}) {
           showsVerticalScrollIndicator={false}
           horizontal={true}
           style={styles.scrollView}
-        >{ cards('payer') }</ScrollView>
+        >
+          <Cards debtCardType={'payer'}/>
+        </ScrollView>
       </View >
 
       <Text style={styles.header}>Paid Dues</Text>
@@ -100,13 +120,15 @@ export default function ViewRecord({setApp}) {
           showsVerticalScrollIndicator={false}
           horizontal={true}
           style={styles.scrollView}
-        >{ cards('receiver') }</ScrollView>
+        >
+          <Cards debtCardType={'receiver'}/>
+        </ScrollView>
       </View>
 
       <Button
         color='black'
         title="Done"
-        onPress={ () => setApp('Front') }
+        onPress={ () => {setApp('Front')} }
       />
     </View>
   );
