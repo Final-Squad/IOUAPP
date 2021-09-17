@@ -67,7 +67,7 @@ export default function Login({setApp}) {
 
         <Button
           color='black'
-          title={'Sign Up!'}
+          title={'Sign Up'}
           onPress={() => {
             setApp('SignUp');
           }}

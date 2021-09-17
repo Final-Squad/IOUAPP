@@ -24,26 +24,29 @@ export default function ViewRecord({setApp}) {
       <View style={styles.card}>
         <View style={{paddingVertical: 30}}>
           { !obj.paid ?
-            obj.youOwe ? <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>I owe {obj.name}</Text> : <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>{obj.name} owes me</Text>
+            obj.youOwe ? <Text style={styles.cardHeader}>I owe {obj.name}</Text> : <Text style={styles.cardHeader}>{obj.name} owes me</Text>
           :
-            obj.youOwe ? <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>I paid {obj.name}</Text> : <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>{obj.name} paid me</Text>
+            obj.youOwe ? <Text style={styles.cardHeader}>I paid {obj.name}</Text> : <Text style={styles.cardHeader}>{obj.name} paid me</Text>
         }
         </View>
-         <Text style={{textAlign: 'center', color: 'white'}}>{`Name: ${obj.name}`}</Text>
-        <Text style={{textAlign: 'center', color: 'white'}}>{`Awaited Item: ${obj.thing}`}</Text>
-        <Text style={{textAlign: 'center', color: 'white'}}>{`Waiting Since: ${obj.startDate}`}</Text>
-        {obj.paid ? <Text style={{textAlign: 'center', color: 'white'}}>{`Paid on: ${obj.endDate}`}</Text> : null}
+         <Text style={styles.cardText}>{`Name: ${obj.name}`}</Text>
+        <Text style={styles.cardText}>{`Awaited Item: ${obj.thing}`}</Text>
+        <Text style={styles.cardText}>{`Waiting Since: ${obj.startDate}`}</Text>
+        {obj.paid ? <Text style={styles.cardText}>{`Paid on: ${obj.endDate}`}</Text> : null}
 
 
-        {!obj.paid && <Button style={{textAlign: 'center', color: 'white'}} title='Mark as Paid?' onPress={() => {obj.paid = true; obj.endDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`; setpaid(true)}}/>}
-        {!obj.paid && <Button
-        title={'Send them a reminder'}
-        onPress={async () => {
-          await Share.share({
-            message: obj.youOwe ? `Hey ${obj.name} i havent forgotten about the ${obj.thing}` :  `Hey ${obj.name}, dont forget to give me the ${obj.thing}`
-          })
-        }}
-        />}
+        <View style={styles.buttonContainers}>
+          {!obj.paid && <Text color='black' style={[styles.cardText, styles.cardButtons, styles.paidbutt]} onPress={() => {obj.paid = true; obj.endDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`; setpaid(true)}}>Paid?</Text>}
+          {!obj.paid && <Text
+          color='black'
+          style={[styles.cardText, styles.cardButtons, styles.reminderbutt]}
+          onPress={async () => {
+            await Share.share({
+              message: obj.youOwe ? `Hey ${obj.name} i havent forgotten about the ${obj.thing}` :  `Hey ${obj.name}, dont forget to give me the ${obj.thing}`
+            })
+          }}
+          >Send Reminder</Text>}
+        </View>
 
       </View>
     )
@@ -142,9 +145,41 @@ const styles = StyleSheet.create({
     padding: '5%'
   },
   card: {
-    backgroundColor: 'black',
+    backgroundColor: 'white',
+    borderWidth: .5,
     width: 350,
     height: 250,
     margin: 10,
+    borderRadius: 25,
+    shadowOffset: {width: 10, height: 10},
+    shadowColor: 'black',
+    shadowOpacity: .4
+  },
+  cardText: {
+    textAlign: 'center', 
+    fontSize: 18
+  },
+  cardHeader: {
+    textAlign: 'center',
+    fontSize: 30,
+  },
+  cardButtons: {
+    fontSize: 20,
+    textAlign: 'center',
+    padding: 8,
+    margin: 5,
+    marginTop: 10,
+    color: 'white'
+  },
+  paidbutt: {
+    backgroundColor: 'green',
+  },
+  reminderbutt: {
+    backgroundColor: 'purple',
+  },
+  buttonContainers: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 });
