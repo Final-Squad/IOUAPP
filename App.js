@@ -8,31 +8,33 @@ import About from './components/About/About';
 import CreateRecords from './components/CreateRecords/CreateRecords';
 import ViewRecord from './components/ViewRecord/ViewRecord';
 import { ToastProvider } from 'react-native-toast-notifications';
-
+import { UserContext } from './Contexts/AppContext';
 
 export default function App() {
-  const [loggedUser, setloggedUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [appState, setappState] = useState('Splash');
 
   return (
-    <ToastProvider offsetTop={100}
-    textStyle={{ fontSize: 30 }}>
-      <ScrollView
-        contentContainerStyle={styles.container}
-      >
-        <KeyboardAvoidingView behavior="position" enabled keyboardVerticalOffset={0}>
-          {
-            appState === 'Splash' && <Splash setApp={setappState}/> ||
-            appState === 'About' && <About setApp={setappState}/> ||
-            appState === 'SignUp' && <SignUp setApp={setappState} setloggedUser={setloggedUser} /> ||
-            appState === 'Login' && <Login setApp={setappState} setloggedUser={setloggedUser} loggedUser={loggedUser}/> ||
-            appState === 'Front' && <Front setApp={setappState} setloggedUser={setloggedUser}/> ||
-            appState === 'Create' && <CreateRecords setApp={setappState} loggedUser={loggedUser}/> ||
-            appState === 'View' && <ViewRecord setApp={setappState} loggedUser={loggedUser}/>
-          }
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </ToastProvider>
+    <UserContext.Provider value={{user, setUser}}>
+      <ToastProvider offsetTop={100}
+      textStyle={{ fontSize: 30 }}>
+        <ScrollView
+          contentContainerStyle={styles.container}
+        >
+          <KeyboardAvoidingView behavior="position" enabled keyboardVerticalOffset={0}>
+            {
+              appState === 'Splash' && <Splash setApp={setappState}/> ||
+              appState === 'About' && <About setApp={setappState}/> ||
+              appState === 'SignUp' && <SignUp setApp={setappState}/> ||
+              appState === 'Login' && <Login setApp={setappState}/> ||
+              appState === 'Front' && <Front setApp={setappState}/> ||
+              appState === 'Create' && <CreateRecords setApp={setappState} user={user}/> ||
+              appState === 'View' && <ViewRecord setApp={setappState} user={user}/>
+            }
+          </KeyboardAvoidingView>
+        </ScrollView>
+      </ToastProvider>
+    </UserContext.Provider>
   );
 }
 

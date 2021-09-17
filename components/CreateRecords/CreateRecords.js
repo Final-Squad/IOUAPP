@@ -1,20 +1,23 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer, useState, useContext} from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useToast } from "react-native-toast-notifications";
 import { createDebtcard } from '../../api';
+import { UserContext } from '../../Contexts/AppContext';
 
-export default function CreateRecords({setApp, loggedUser}) {
+
+export default function CreateRecords({setApp}) {
   const [otherEmail, setOtherEmail] = React.useState("");
   const [amount, setAmount] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [ready, setReady] = React.useState(true);
+  const {user} = useContext(UserContext)
 
   const [youOwe, setyouOwe] = useState(true);
 
   const payload = {
-    payer: youOwe ? loggedUser.email : otherEmail,
-    receiver: !youOwe ? otherEmail : loggedUser.email,
+    payer: youOwe ? user.email : otherEmail,
+    receiver: !youOwe ? otherEmail : user.email,
     reason: reason,
     amount: amount
   }

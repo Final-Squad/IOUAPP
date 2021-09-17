@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { ImageBackground } from 'react-native';
+import { UserContext } from '../../Contexts/AppContext';
 
 const image = {}
 
-export default function Front({setApp, setloggedUser}) {
+export default function Front({setApp}) {
+  const {setUser} = useContext(UserContext)
   return (
     <View style={styles.container}>
       {/* <ImageBackground source={image} resizeMode="cover"> */}
@@ -44,7 +46,7 @@ export default function Front({setApp, setloggedUser}) {
             title="Log Out"
             onPress={
               () => {
-                setloggedUser(null)
+                setUser(null)
                 setApp('Login')
               }
             }

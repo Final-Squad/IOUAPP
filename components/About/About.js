@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { StyleSheet, Text, View, Button, Animated } from 'react-native';
 // import Emoji from 'react-native-emoji';
 
@@ -64,7 +64,7 @@ export default function About({setApp}) {
   const [run, setRun] = useState(true)
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     run && newString();
     return;
   })
@@ -109,7 +109,7 @@ export default function About({setApp}) {
         </View>
 
         <View>
-          <Text style={{textAlign: 'center'}}>Love for <Text style={{color: 'red'}}>Holberton</Text><Text> / </Text><Text>D</Text><Text style={{color: 'red'}}>A</Text>+<Text style={{color: 'purple'}}>E</Text></Text>
+          <Text style={{textAlign: 'center'}}><Text>Love</Text> for <Text style={{color: 'red'}}>Holberton</Text><Text> / </Text><Text>D</Text><Text style={{color: 'red'}}>A</Text>+<Text style={{color: 'purple'}}>E</Text></Text>
         </View>
       {/* </ImageBackground> */}
     </View>
