@@ -20,6 +20,6 @@ IOUAPP is used to record and save what you owe and what others may owe you. If y
 4. In the repo run ```expo start```
 
 ### Authors
-PM/FE: Christian Williams
+Product Manager/Lead Frontend Engineer: Christian Williams
 
-BE: Marcelo Martins
+Lead Fullstack Engineer: Marcelo Martins
