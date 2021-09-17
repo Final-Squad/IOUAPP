@@ -49,7 +49,6 @@ export default function ViewRecord({setApp}) {
             <Text
               onPress={async () => await Share.share(notificationMsg)}
               style={[styles.cardButtons, styles.reminderbutt]}
-
             >Send Reminder</Text>
           </View>
           :
@@ -65,7 +64,7 @@ export default function ViewRecord({setApp}) {
    * @returns debtCards
    */
   const cards = async (debtCardType) => {
-    const debtCards = await getDebtcardForUserByDebtType(user.email, debtCardType);
+    const debtCards = await getDebtcardForUserByDebtType(user.user.email, debtCardType);
     return debtCards.debtCards.map((debtCard) => {
       return (
         <Card

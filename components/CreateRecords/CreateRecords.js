@@ -1,10 +1,10 @@
-import React, {useReducer, useState, useContext} from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
+import React, { useState, useContext} from 'react';
+import { Text, View, Button, TextInput, Share } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useToast } from "react-native-toast-notifications";
 import { createDebtcard } from '../../api';
 import { UserContext } from '../../Contexts/AppContext';
-
+import styles from '../styles';
 
 export default function CreateRecords({setApp}) {
   const [otherEmail, setOtherEmail] = React.useState("");
@@ -14,10 +14,20 @@ export default function CreateRecords({setApp}) {
   const {user} = useContext(UserContext)
 
   const [youOwe, setyouOwe] = useState(true);
+  let payer = null;
+  let receiver = null;
+
+  if (youOwe) {
+    payer = user.user.email;
+    receiver = otherEmail;
+  } else {
+    payer = otherEmail;
+    receiver = user.user.email;
+  }
 
   const payload = {
-    payer: youOwe ? user.email : otherEmail,
-    receiver: !youOwe ? otherEmail : user.email,
+    payer,
+    receiver,
     reason: reason,
     amount: amount
   }
@@ -36,7 +46,9 @@ export default function CreateRecords({setApp}) {
       <Picker
         selectedValue={youOwe}
         style={{ width: 300 }}
-        onValueChange={(itemValue, itemIndex) => setyouOwe(itemValue)}
+        onValueChange={(itemValue, itemIndex) => {
+          setyouOwe(itemValue);
+        }}
       >
         <Picker.Item label="I owe Someone" value={true} />
         <Picker.Item label="Someone owes Me" value={false} />
@@ -73,17 +85,15 @@ export default function CreateRecords({setApp}) {
           title={'Save'}
           onPress={async () => {
             if (otherEmail && reason && amount) {
-              console.log("PAYLOAD", payload);
-              const debtCard = await createDebtcard(
+              await createDebtcard(
                 payload.payer, payload.receiver,
                 payload.reason, payload.amount
               );
               setReady(true)
-              setApp('View');
+              // setApp('View');
             } else {
               setReady(false);
-              toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-              console.log('Not all forms are filled');
+              toast.show("Missing fields", alertConfig)
             }
           }}
         />
@@ -104,14 +114,11 @@ export default function CreateRecords({setApp}) {
             await Share.share({
               message: 'Hey, this was sent from the app,\n' + pl
             });
-            // database stuff goes here
-            pl = JSON.stringify(payload);
             setReady(true)
-            setApp('View');
+            // setApp('View');
           } else {
             setReady(false);
-            toast.show("Not all fields have been filled, please fill them in.", alertConfig)
-            console.log('Not all forms are filled');
+            toast.show("Missing fields", alertConfig)
           }
         }}
         />
@@ -119,21 +126,3 @@ export default function CreateRecords({setApp}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  buttons: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center'
-  }
-});
