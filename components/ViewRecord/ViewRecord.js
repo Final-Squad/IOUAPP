@@ -1,13 +1,16 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useState, useMemo, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Share } from 'react-native';
+import { UserContext } from '../../Contexts/AppContext';
+
 
 const mock = require('../../assets/MOCK_DATA.json')
 const date = new Date()
 
 
-export default function ViewRecord({setApp, loggedUser}) {
+export default function ViewRecord({setApp}) {
   const [paid, setpaid] = useState(false)
   const [OweFilter, setOweFilter] = useState(true)
+  const {user} = useContext(UserContext)
 
 
   useEffect(() => {

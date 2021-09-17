@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { useToast } from "react-native-toast-notifications";
 import { createUser } from '../../api';
 import styles from '../styles';
+import { UserContext } from '../../Contexts/AppContext';
 
-export default function SignUp({setApp, loggedUser, setloggedUser}) {
+export default function SignUp({setApp}) {
   const [firstName, setFirstName] = React.useState("");
   const [verify, setVerify] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [user, setUser] = React.useState(loggedUser);
 
   const [ready, setReady] = React.useState(true)
   const [verified, setVerified] = React.useState(true)
+
+  const {user, setUser} = useContext(UserContext)
 
   const apiCreateUser = async () => {
     setVerified(password === verify)

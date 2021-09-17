@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import styles from '../styles';
 import { login } from '../../api';
+import { UserContext } from '../../Contexts/AppContext';
 
-export default function Login({setApp, loggedUser, setloggedUser}) {
+export default function Login({setApp}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ready, setReady] = useState(true);
-  const [user, setUser] = useState(loggedUser);
+  const {user, setUser} = useContext(UserContext)
 
   const apiLoginUser = async () => {
     if (email && password) {
-      setUser(await login(email, password));
+      const logged = await login(email, password)
+      setUser(logged);
     } else {
       setReady(false);
     }
@@ -20,8 +22,6 @@ export default function Login({setApp, loggedUser, setloggedUser}) {
   useEffect(() => {
     if (user && user.user) {
       console.log("user - >", user);
-      setloggedUser(user);
-      console.log("LoggedUser - >", loggedUser);
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {
