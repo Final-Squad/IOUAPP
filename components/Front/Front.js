@@ -4,19 +4,18 @@ import { ImageBackground } from 'react-native';
 
 const image = {}
 
-
 export default function Front({setApp, setloggedUser}) {
   return (
     <View style={styles.container}>
       {/* <ImageBackground source={image} resizeMode="cover"> */}
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>
-            IOU<Text style={styles.apps}>APP</Text>
+        <View style={styles.logoContainer}>
+          <Text style={styles.iou}>
+            IOU<Text style={styles.app}>APP</Text>
           </Text>
         </View>
 
         <View style={styles.buttons}>
-          <Button 
+          <Button
             title="Create New Record"
             color="black"
             onPress={() => {
@@ -24,13 +23,13 @@ export default function Front({setApp, setloggedUser}) {
             }}
           />
           <Button
-            title="View Records" 
+            title="View Records"
             color="black"
             onPress={() => {
               setApp('View')
             }}
           />
-          <Button 
+          <Button
             color='black'
             title="About Page"
             onPress={
@@ -40,7 +39,7 @@ export default function Front({setApp, setloggedUser}) {
             }
           />
 
-          <Button 
+          <Button
             color='black'
             title="Log Out"
             onPress={
@@ -57,15 +56,34 @@ export default function Front({setApp, setloggedUser}) {
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    marginBottom: 300,
+  buttons: {
+    height: 180,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  title: {
+  container: {
+    height: 350,
+    width: 300,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  logoContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: 300,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  iou: {
     fontSize: 50,
   },
-  apps: {
+  app: {
     color: 'red',
     fontSize: 50,
-    opacity: .3
+    opacity: .3,
   }
 });

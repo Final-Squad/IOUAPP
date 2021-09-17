@@ -1,56 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
-import { useToast } from "react-native-toast-notifications";
-import styles from './styles';
+import styles from '../styles';
 import { login } from '../../api';
 
 export default function Login({setApp, loggedUser, setloggedUser}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ready, setReady] = useState(true);
-  const [user, setUser] = useState(loggedUser)
-    
-
-
-  const toast = useToast();
-  const alertConfig = {
-    type: 'danger',
-    placement: "top",
-    duration: 3000,
-    animationType: 'zoom-in',
-  }
+  const [user, setUser] = useState(loggedUser);
 
   const apiLoginUser = async () => {
-    console.log('before', email, password)
-
     if (email && password) {
       setUser(await login(email, password));
     } else {
       setReady(false);
-      toast.show("Invalid fields", alertConfig);
     }
   }
 
   useEffect(() => {
-    console.log('after', email, password)
     if (user && user.user) {
-      setloggedUser(user)
+      console.log("user - >", user);
+      setloggedUser(user);
+      console.log("LoggedUser - >", loggedUser);
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {
+      setPassword("");
       setReady(false);
       setUser(null);
-      toast.show(user.error, alertConfig);
     }
   }, [user])
 
-
-
   return (
     <View style={styles.container}>
-      <View style={jstyles.titleContainer}>
-        <Text style={jstyles.title}>
-          IOU<Text style={jstyles.apps}>APP</Text>
+      <View style={styles.logoContainer}>
+        <Text style={styles.iou}>
+          IOU<Text style={styles.app}>APP</Text>
         </Text>
       </View>
 
@@ -87,13 +72,12 @@ export default function Login({setApp, loggedUser, setloggedUser}) {
             setApp('SignUp');
           }}
         />
-        <Button 
+        <Button
           color='black'
           title="Test"
           onPress={
             () => {
-              console.log('test')
-              setApp('Front')
+              setApp('Front');
             }
           }
       />
@@ -101,18 +85,3 @@ export default function Login({setApp, loggedUser, setloggedUser}) {
     </View>
   );
 }
-
-const jstyles = StyleSheet.create({
-  titleContainer: {
-    marginBottom: 150,
-    paddingLeft: 55,
-  },
-  title: {
-    fontSize: 50,
-  },
-  apps: {
-    color: 'red',
-    fontSize: 50,
-    opacity: .3
-  }
-});

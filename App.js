@@ -11,10 +11,8 @@ import { ToastProvider } from 'react-native-toast-notifications';
 
 
 export default function App() {
-  const [loggedUser, setloggedUser] = useState(null)
-  const [appState, setappState] = useState('Splash')
-
-  
+  const [loggedUser, setloggedUser] = useState(null);
+  const [appState, setappState] = useState('Splash');
 
   return (
     <ToastProvider offsetTop={100}

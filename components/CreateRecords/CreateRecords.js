@@ -4,21 +4,17 @@ import { Picker } from '@react-native-picker/picker';
 import { useToast } from "react-native-toast-notifications";
 import { createDebtcard } from '../../api';
 
-
-const date = new Date()
-
-
-export default function CreateRecords({setApp}) {
+export default function CreateRecords({setApp, loggedUser}) {
   const [otherEmail, setOtherEmail] = React.useState("");
   const [amount, setAmount] = React.useState("");
   const [reason, setReason] = React.useState("");
-  const [ready, setReady] = React.useState(true)
+  const [ready, setReady] = React.useState(true);
 
   const [youOwe, setyouOwe] = useState(true);
 
   const payload = {
-    payer: youOwe ? user.email : otherEmail,
-    receiver: !youOwe ? otherEmail : user.email,
+    payer: youOwe ? loggedUser.email : otherEmail,
+    receiver: !youOwe ? otherEmail : loggedUser.email,
     reason: reason,
     amount: amount
   }
@@ -45,18 +41,19 @@ export default function CreateRecords({setApp}) {
 
       <TextInput
         style={styles.input}
-        onChangeText={setName}
+        onChangeText={setOtherEmail}
         value={otherEmail}
         placeholderTextColor={ready ? 'black' : 'red'}
-        placeholder={ready ? "Name of the person you owe/owes you." : 'Please enter a name!'}
+        placeholder={ready ? "Email of the person you owe/owes you." : 'Please enter the eamil!'}
       />
 
       <TextInput
         style={styles.input}
+        type
         onChangeText={setReason}
         value={reason}
         placeholderTextColor={ready ? 'black' : 'red'}
-        placeholder={ready ? "What is owed?" : 'Please enter the item that is owed!'}
+        placeholder={ready ? "Reason" : 'Please enter a reason!'}
       />
 
       <TextInput
@@ -64,7 +61,7 @@ export default function CreateRecords({setApp}) {
         onChangeText={setAmount}
         value={amount}
         placeholderTextColor={ready ? 'black' : 'red'}
-        placeholder={ready ? "What is the Reason?" : 'Please enter a reason!'}
+        placeholder={ready ? "Amount" : 'Please enter the amount!'}
       />
 
       <View style={styles.buttons}>
@@ -73,6 +70,7 @@ export default function CreateRecords({setApp}) {
           title={'Save'}
           onPress={async () => {
             if (otherEmail && reason && amount) {
+              console.log("PAYLOAD", payload);
               const debtCard = await createDebtcard(
                 payload.payer, payload.receiver,
                 payload.reason, payload.amount
@@ -99,7 +97,7 @@ export default function CreateRecords({setApp}) {
         color='black'
         title={'Share & Save'}
         onPress={async () => {
-          if (name && things && reason) {
+          if (otherEmail && reason && amount) {
             await Share.share({
               message: 'Hey, this was sent from the app,\n' + pl
             });

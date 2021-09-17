@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
+import { Text, View, Button, TextInput, ScrollView, Share } from 'react-native';
 import { useToast } from "react-native-toast-notifications";
 import { createUser } from '../../api';
-
-
+import styles from '../styles';
 
 export default function SignUp({setApp, loggedUser, setloggedUser}) {
   const [firstName, setFirstName] = React.useState("");
@@ -13,33 +12,21 @@ export default function SignUp({setApp, loggedUser, setloggedUser}) {
   const [password, setPassword] = React.useState("");
   const [user, setUser] = React.useState(loggedUser);
 
-
   const [ready, setReady] = React.useState(true)
   const [verified, setVerified] = React.useState(true)
-
-
-
-  const payload = {
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    password: password,
-    verficationPass: verify,
-
-  }
 
   const apiCreateUser = async () => {
     setVerified(password === verify)
     if (email && password && verify && firstName && lastName) {
       if (!verified) {
-        toast.show("Passwords arent the same")
+        toast.show("Passwords don't match");
         setReady(false);
       } else {
         setUser(await createUser(firstName, lastName, email, password));
       }
     } else {
       setReady(false);
-      toast.show("Not all fields have been filled, please fill them in.", alertConfig)
+      toast.show("Missing fields", alertConfig);
     }
   }
 
@@ -55,7 +42,6 @@ export default function SignUp({setApp, loggedUser, setloggedUser}) {
     }
   }, [user])
 
-  let pl = null
   const toast = useToast();
   const alertConfig = {
     type: 'danger',
@@ -66,50 +52,49 @@ export default function SignUp({setApp, loggedUser, setloggedUser}) {
 
   return (
     <View>
-      <Text style={styles.title}>Sign up for IOUapp</Text>
+      <Text style={styles.title}>Sign Up</Text>
 
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setFirstName}
         value={firstName}
-        placeholder={ready ? "Your First Name" : 'Please enter an First Name!'}
+        placeholder={"First Name"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='emailAddress'
       />
 
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setLastName}
         value={lastName}
-        placeholder={ready ? "Your Last Name" : 'Please enter an Last Name!'}
+        placeholder={"Last Name"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='emailAddress'
       />
 
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setEmail}
         value={email}
-        placeholder={ready ? "Your Email" : 'Please enter an Email!'}
+        placeholder={"Email"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='emailAddress'
       />
 
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setPassword}
         value={password}
-        placeholder={ready ? "Verfy Password" : 'Words aren`t the same!'}
+        placeholder={"Password"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='password'
         secureTextEntry={true}
       />
-  
       <TextInput
-        style={styles.input}
+        style={ready ? styles.input : styles.inputErr }
         onChangeText={setVerify}
         value={verify}
-        placeholder={ready ? "Verfy Password" : 'Words aren`t the same!'}
+        placeholder={"Verfy Password"}
         placeholderTextColor={ready ? 'black' : 'red'}
         textContentType='password'
         secureTextEntry={true}
@@ -120,7 +105,7 @@ export default function SignUp({setApp, loggedUser, setloggedUser}) {
         color='black'
         title={'Sign Up!'}
         onPress={async () => await apiCreateUser()}/>
-          <Button 
+          <Button
             color='black'
             title="Back"
             onPress={
@@ -133,22 +118,3 @@ export default function SignUp({setApp, loggedUser, setloggedUser}) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-  buttons: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    display: 'flex',
-    flexDirection: 'row',
-  }
-});

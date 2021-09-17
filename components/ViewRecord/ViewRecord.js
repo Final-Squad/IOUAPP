@@ -25,8 +25,6 @@ export default function ViewRecord({setApp, loggedUser}) {
           :
             obj.youOwe ? <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>I paid {obj.name}</Text> : <Text style={{color: 'white', textAlign: 'center', fontSize: 30}}>{obj.name} paid me</Text>
         }
-
-          
         </View>
          <Text style={{textAlign: 'center', color: 'white'}}>{`Name: ${obj.name}`}</Text>
         <Text style={{textAlign: 'center', color: 'white'}}>{`Awaited Item: ${obj.thing}`}</Text>
@@ -47,7 +45,6 @@ export default function ViewRecord({setApp, loggedUser}) {
       </View>
     )
   }
-  
 
   return (
     <View style={styles.container}>
