@@ -14,10 +14,12 @@ IOUAPP is used to record and save what you owe and what others may owe you. If y
 -----------
 
 ### Setup
-1. ```npm install```
-2. (make sure expo is installed) ```npm install --global expo-cli```
-3. In the repo run ```expo start```
+1. clone the repo
+2. ```npm install```
+3. (make sure expo is installed) ```npm install --global expo-cli```
+4. In the repo run ```expo start```
 
 ### Authors
-PM/FE: Christian Williams
-BE: Marcelo Martins
+Product Manager/Lead Frontend Engineer: Christian Williams
+
+Lead Fullstack Engineer: Marcelo Martins

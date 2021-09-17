@@ -1,5 +1,6 @@
 import React, {useState, useMemo, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Share } from 'react-native';
+import { getDebtcardForUserByDebtType, getUser, updatePaymentForDebtcard } from '../../api';
 import { UserContext } from '../../Contexts/AppContext';
 
 
@@ -12,44 +13,70 @@ export default function ViewRecord({setApp}) {
   const [OweFilter, setOweFilter] = useState(true)
   const {user} = useContext(UserContext)
 
-
   useEffect(() => {
     setpaid(false)
     return ;
   }, [paid])
 
+  const Card = async ({debtCard, youOwe, paid}) => {
+    const otherPerson = await getUser(youOwe ? debtCard.receiver : debtCard.payer);
 
-  const Card = ({obj}) => {
+    const notificationMsg = {
+      message: youOwe
+        ? `Hey ${otherPerson.firstName}I haven't forgotten about the $${debtCard.amount}`
+        : `Hey ${otherPerson.firstName}, don't forget to send me the $${debtCard.amount}`
+    }
+
+    const whoOwesWho = youOwe && !paid ? `I owe ${otherPerson.firstName}` : `${otherPerson.firstName} owes me`;
+    const whoPaidWho = youOwe && paid ? `I paid ${otherPerson.firstName}` : `${otherPerson.firstName} paid me`;
+
     return (
       <View style={styles.card}>
-        <View style={{paddingVertical: 30}}>
-          { !obj.paid ?
-            obj.youOwe ? <Text style={styles.cardHeader}>I owe {obj.name}</Text> : <Text style={styles.cardHeader}>{obj.name} owes me</Text>
+        <Text style={styles.cardName}>{paid ? whoPaidWho : whoOwesWho}</Text>
+        <View style={styles.cardInfo}>
+          <Text>{`Name: ${otherPerson.firstName} ${otherPerson.lastName}`}</Text>
+          <Text>{`Amount: ${debtCard.amount}`}</Text>
+          <Text>{`Date: ${debtCard.createdAt}`}</Text>
+        </View>
+        {
+          paid
+          ?
+          <View style={styles.buttonContainers}>
+            <Button
+              title={'Mark as paid'}
+              onPress={ async () => await updatePaymentForDebtcard(debtCard.id, true) }
+              style={[styles.cardButtons, styles.paidbutt]}
+            />
+            <Button
+              title={'Send reminder'}
+              onPress={async () => await Share.share(notificationMsg)}
+              style={[styles.cardButtons, styles.reminderbutt]}
+
+            />
+          </View>
           :
-            obj.youOwe ? <Text style={styles.cardHeader}>I paid {obj.name}</Text> : <Text style={styles.cardHeader}>{obj.name} paid me</Text>
+          null
         }
-        </View>
-         <Text style={styles.cardText}>{`Name: ${obj.name}`}</Text>
-        <Text style={styles.cardText}>{`Awaited Item: ${obj.thing}`}</Text>
-        <Text style={styles.cardText}>{`Waiting Since: ${obj.startDate}`}</Text>
-        {obj.paid ? <Text style={styles.cardText}>{`Paid on: ${obj.endDate}`}</Text> : null}
-
-
-        <View style={styles.buttonContainers}>
-          {!obj.paid && <Text color='black' style={[styles.cardText, styles.cardButtons, styles.paidbutt]} onPress={() => {obj.paid = true; obj.endDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`; setpaid(true)}}>Paid?</Text>}
-          {!obj.paid && <Text
-          color='black'
-          style={[styles.cardText, styles.cardButtons, styles.reminderbutt]}
-          onPress={async () => {
-            await Share.share({
-              message: obj.youOwe ? `Hey ${obj.name} i havent forgotten about the ${obj.thing}` :  `Hey ${obj.name}, dont forget to give me the ${obj.thing}`
-            })
-          }}
-          >Send Reminder</Text>}
-        </View>
-
       </View>
-    )
+    );
+  }
+
+  /**
+   * get debtCard by types
+   * @param {*} debtCardType payer || receiver
+   * @returns debtCards
+   */
+  const cards = async (debtCardType) => {
+    const debtCards = await getDebtcardForUserByDebtType(user.email, debtCardType);
+    return debtCards.debtCards.map((debtCard) => {
+      return (
+        <Card
+          debtCard={debtCard}
+          youOwe={debtCard.payer === user.email}
+          paid={debtCard.paid}
+        ></Card>
+      );
+    });
   }
 
   return (
@@ -62,62 +89,44 @@ export default function ViewRecord({setApp}) {
 
       <Text style={styles.header}>Dues To Be Paid</Text>
       <View style={{paddingHorizontal: 20 }}>
-      <ScrollView
-      showsVerticalScrollIndicator={false}
-      horizontal={true}
-      style={{ display: 'flex', flexDirection: 'row'}}
-      >
-        {
-
-          mock.map((rec) => {
-            return !rec.paid ?
-            rec.youOwe ?
-              OweFilter && <Card key={rec.id} obj={rec}/>
-              :
-              !OweFilter && <Card key={rec.id} obj={rec}/>
-            :
-            null
-          })
-        }
-      </ScrollView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          horizontal={true}
+          style={styles.scrollView}
+        >{ cards('payer') }</ScrollView>
       </View >
 
       <Text style={styles.header}>Paid Dues</Text>
       <View style={{ paddingHorizontal: 20 }}>
         <ScrollView
-        showsVerticalScrollIndicator={false}
-        horizontal={true}
-        style={{ display: 'flex', flexDirection: 'row'}}
-        >
-          {
-            mock.map((rec) => {
-              return rec.paid ?
-                rec.youOwe ?
-                  OweFilter && <Card key={rec.id} obj={rec}/>
-                  :
-                  !OweFilter && <Card key={rec.id} obj={rec}/>
-                :
-                null
-            })
-          }
-
-        </ScrollView>
+          showsVerticalScrollIndicator={false}
+          horizontal={true}
+          style={styles.scrollView}
+        >{ cards('receiver') }</ScrollView>
       </View>
 
-      <Button 
-          color='black'
-          title="Done"
-          onPress={
-            () => {
-              setApp('Front')
-            }
-          }
+      <Button
+        color='black'
+        title="Done"
+        onPress={ () => setApp('Front') }
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  cardName: {
+    textAlign: 'center',
+    fontSize: 30
+  },
+  cardInfo: {
+    textAlign: 'center',
+    fontSize: 18
+  },
   container: {
     paddingTop: 50,
     paddingBottom: 50,
@@ -154,14 +163,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 10, height: 10},
     shadowColor: 'black',
     shadowOpacity: .4
-  },
-  cardText: {
-    textAlign: 'center', 
-    fontSize: 18
-  },
-  cardHeader: {
-    textAlign: 'center',
-    fontSize: 30,
   },
   cardButtons: {
     fontSize: 20,
