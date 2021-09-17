@@ -42,17 +42,15 @@ export default function ViewRecord({setApp}) {
           paid
           ?
           <View style={styles.buttonContainers}>
-            <Button
-              title={'Mark as paid'}
+            <Text
               onPress={ async () => await updatePaymentForDebtcard(debtCard.id, true) }
               style={[styles.cardButtons, styles.paidbutt]}
-            />
-            <Button
-              title={'Send reminder'}
+            >Paid?</Text>
+            <Text
               onPress={async () => await Share.share(notificationMsg)}
               style={[styles.cardButtons, styles.reminderbutt]}
 
-            />
+            >Send Reminder</Text>
           </View>
           :
           null
