@@ -36,11 +36,12 @@ export default function ViewRecord({setApp}) {
     const [otherPerson, setOP] = useState({})
 
     useEffect(() => {
-      const usegetter = async () => {
-        setOP(await getUser(youOwe ? debtCard.receiver : debtCard.payer))
+      const useGetter = async () => {
+        const otherP = await getUser(youOwe ? debtCard.receiver : debtCard.payer);
+        const otherPAfterAwait = otherP.user ? otherP.user : youOwe ? { firstName: debtCard.receiver,lastName: '' } : { firstName: debtCard.payer,lastName: '' };
+        setOP(otherPAfterAwait)
       }
-      usegetter()
-      console.log("this is the other person!", otherPerson)
+      useGetter();
     })
 
     const notificationMsg = {
@@ -191,12 +192,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .5,
     width: 350,
-    height: 250,
+    height: 150,
     margin: 10,
-    borderRadius: 25,
-    shadowOffset: {width: 10, height: 10},
-    shadowColor: 'black',
-    shadowOpacity: .4
+    borderRadius: 5,
+    // shadowOffset: {width: 10, height: 10},
+    // shadowColor: 'black',
+    // shadowOpacity: .4
   },
   cardButtons: {
     fontSize: 20,
