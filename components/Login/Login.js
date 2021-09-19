@@ -32,7 +32,6 @@ export default function Login({setApp}) {
       setReady(true);
     }
     else if (user && user.user) {
-      console.log("user - >", user, user.user.email);
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {

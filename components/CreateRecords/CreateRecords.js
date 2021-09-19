@@ -90,7 +90,7 @@ export default function CreateRecords({setApp}) {
                 payload.reason, payload.amount
               );
               setReady(true)
-              // setApp('View');
+              setApp('View');
             } else {
               setReady(false);
               toast.show("Missing fields", alertConfig)

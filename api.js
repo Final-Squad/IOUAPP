@@ -157,14 +157,23 @@ export const updatePaymentForDebtcard = async (id, isPaid) => {
  * @param {*} debt can only be payer or receiver
  * @returns debtcards
  */
-export const getDebtcardForUserByDebtType = async (userEmail, debt) => {
-  // if (debt !== 'payer' || debt !== 'receiver') return null;
-  console.log(debt)
-  const userDebtcards = await fetch(`${API_URL}/debtcards/users/${userEmail}?debt=${debt}`)
+export const getDebtcardForUserByDebtType = async (userEmail) => {
+  const payerUserDebtcards = await fetch(`${API_URL}/debtcards/users/${userEmail}?debt=payer`)
     .then(res => res.json())
     .then(debtcards => debtcards);
-  const i = 0;
-  // while (i < 10)
-  console.log("userDebtcards -> ", userDebtcards);
+  const receiverUserDebtcards = await fetch(`${API_URL}/debtcards/users/${userEmail}?debt=receiver`)
+    .then(res => res.json())
+    .then(debtcards => debtcards);
+  const combined = [
+    ...payerUserDebtcards.debtCards,
+    ...receiverUserDebtcards.debtCards,
+  ];
+  return combined;
+}
+
+export const getUsersPaidAndPaidDebtcards = async (userEmail) => {
+  const userDebtcards = await fetch(`${API_URL}/debtcards/users/${userEmail}/paid`)
+    .then(res => res.json())
+    .then(debtcards => debtcards);
   return userDebtcards;
 }

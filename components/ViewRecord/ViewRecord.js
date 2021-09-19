@@ -1,38 +1,25 @@
 import React, {useState, useMemo, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Share } from 'react-native';
-import { getDebtcardForUserByDebtType, getUser, updatePaymentForDebtcard } from '../../api';
+import { getDebtcardForUserByDebtType, getUser, getUsersPaidAndPaidDebtcards, updatePaymentForDebtcard } from '../../api';
 import { UserContext } from '../../Contexts/AppContext';
 
 export default function ViewRecord({setApp}) {
-  const [paid, setpaid] = useState(false);
   const [OweFilter, setOweFilter] = useState(true);
-  const [payers, setPayers] = useState();
-  const [receivers, setReceivers] = useState();
+  const [owedDebtCards, setOwedDebtCards] = useState();
+  const [paidDebtCards, setPaidDebtCards] = useState();
   const {user} = useContext(UserContext);
 
-
-
   useEffect(() => {
-    let isSubscribed = true;
-
-    const getData = async() => {
-      setReceivers(await getDebtcardForUserByDebtType(user.user.email, 'receiver'));
-      setPayers(await getDebtcardForUserByDebtType(user.user.email, 'payer'));
+    const getData = async () => {
+      const owedCards = await getDebtcardForUserByDebtType(user.user.email);
+      const paidCards = await getUsersPaidAndPaidDebtcards(user.user.email);
+      setOwedDebtCards(owedCards);
+      setPaidDebtCards(paidCards);
     }
-    getData()
-
-    return () => isSubscribed = false;
+    getData();
   }, []);
 
-
-
-  useEffect(() => {
-    setpaid(false)
-  }, [paid])
-
-
-
-  const Card = ({debtCard, youOwe, paid}) => {
+  const Card = ({debtCard, youOwe, paid, owedFilterBool}) => {
     const [otherPerson, setOP] = useState({})
 
     useEffect(() => {
@@ -42,7 +29,7 @@ export default function ViewRecord({setApp}) {
         setOP(otherPAfterAwait)
       }
       useGetter();
-    })
+    }, [])
 
     const notificationMsg = {
       message: youOwe
@@ -62,13 +49,15 @@ export default function ViewRecord({setApp}) {
           <Text>{`Date: ${debtCard.createdAt}`}</Text>
         </View>
         {
-          paid
+          debtCard.payer === user.user.email && debtCard.paid === false
           ?
           <View style={styles.buttonContainers}>
             <Text
-              onPress={ async () => await updatePaymentForDebtcard(debtCard.id, true) }
+              onPress={ async () => {
+                await updatePaymentForDebtcard(debtCard.id, true)
+              } }
               style={[styles.cardButtons, styles.paidbutt]}
-            >Paid?</Text>
+            >Pay</Text>
             <Text
               onPress={async () => await Share.share(notificationMsg)}
               style={[styles.cardButtons, styles.reminderbutt]}
@@ -81,32 +70,55 @@ export default function ViewRecord({setApp}) {
     );
   }
 
+  const DebtCardsByOwedFilter = ({debtCard, isPaid}) => {
+    if (OweFilter) {
+      if (debtCard.paid === isPaid && debtCard.payer === user.user.email) {
+        return (<Card
+          key={debtCard.id}
+          debtCard={debtCard}
+          youOwe={debtCard.payer === user.user.email}
+          paid={debtCard.paid}
+        />)
+      } else {
+        return null
+      }
+    } else if (!OweFilter) {
+      if (debtCard.paid === isPaid && debtCard.receiver === user.user.email) {
+        return (<Card
+          key={debtCard.id}
+          debtCard={debtCard}
+          youOwe={debtCard.payer === user.user.email}
+          paid={debtCard.paid}
+        />)
+      } else {
+        return null
+      }
+    } else {
+      return <Text>{'Nothing Yet!'}</Text>
+    }
+  }
+
   /**
    * get debtCard by types
    * @param {*} debtCardType payer || receiver
    * @returns debtCards
    */
-  const Cards = ({debtCardType}) => {
-    const debtCards = debtCardType == 'payer' ? payers : receivers;
-    if (debtCards && debtCards.debtCards.length) {
-      console.log("debits found", debtCards.debtCards)
+  const Cards = ({paid}) => {
+    if (owedDebtCards && paid === false) {
       return (
         <>
-          {
-            debtCards.debtCards.map((debtCard) => 
-              <Card
-                key={debtCard.id}
-                debtCard={debtCard}
-                youOwe={debtCard.payer === user.user.email}
-                paid={debtCard.paid}
-              />
-            )
-          }
+          { owedDebtCards.map((debtCard) => <DebtCardsByOwedFilter debtCard={debtCard} isPaid={false} />) }
         </>
         )
+    } else if (paidDebtCards && paid) {
+      return (
+        <>
+          { paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter debtCard={debtCard} isPaid={true} />) }
+          { paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter debtCard={debtCard} isPaid={true} />) }
+        </>
+      )
     } else {
-      console.log('None found')
-      return <Text>Nothing yet!</Text>
+      return <Text>Something went wrong!</Text>
     }
   }
 
@@ -125,7 +137,7 @@ export default function ViewRecord({setApp}) {
           horizontal={true}
           style={styles.scrollView}
         >
-          <Cards debtCardType={'payer'}/>
+          <Cards paid={false}/>
         </ScrollView>
       </View >
 
@@ -136,7 +148,7 @@ export default function ViewRecord({setApp}) {
           horizontal={true}
           style={styles.scrollView}
         >
-          <Cards debtCardType={'receiver'}/>
+          <Cards paid={true}/>
         </ScrollView>
       </View>
 
@@ -195,9 +207,6 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 10,
     borderRadius: 5,
-    // shadowOffset: {width: 10, height: 10},
-    // shadowColor: 'black',
-    // shadowOpacity: .4
   },
   cardButtons: {
     fontSize: 20,
