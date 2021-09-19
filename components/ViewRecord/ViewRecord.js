@@ -3,28 +3,22 @@ import { StyleSheet, Text, View, Button, ScrollView, Share } from 'react-native'
 import { getDebtcardForUserByDebtType, getUser, updatePaymentForDebtcard } from '../../api';
 import { UserContext } from '../../Contexts/AppContext';
 
-
-const mock = require('../../assets/MOCK_DATA.json')
-const date = new Date()
-
-
 export default function ViewRecord({setApp}) {
-  const [paid, setpaid] = useState(false)
-  const [OweFilter, setOweFilter] = useState(true)
-  const [payers, setPayers] = useState()
-  const [recievers, setRecievers] = useState()
-  const {user} = useContext(UserContext)
+  const [paid, setpaid] = useState(false);
+  const [OweFilter, setOweFilter] = useState(true);
+  const [payers, setPayers] = useState();
+  const [receivers, setReceivers] = useState();
+  const {user} = useContext(UserContext);
 
   const getData = async () => {
-    console.log('set Recievers and payers')
-    setRecievers(await getDebtcardForUserByDebtType(user.user.email, 'reciever'))
-    setPayers(await getDebtcardForUserByDebtType(user.user.email, 'payer'))
+    setReceivers(await getDebtcardForUserByDebtType(user.user.email, 'receiver'));
+    console.log("receivers ", receivers);
+    setPayers(await getDebtcardForUserByDebtType(user.user.email, 'payer'));
   }
 
-  useEffect(() => {getData()}, [recievers, payers])
+  useEffect(() => {getData()}, [receivers, payers]);
 
   useEffect(() => {
-    console.log('this runs at start')
     setpaid(false)
   }, [paid])
 
@@ -74,23 +68,23 @@ export default function ViewRecord({setApp}) {
    * @returns debtCards
    */
   const Cards = ({debtCardType}) => {
-    const debtCard = debtCardType == 'payer' ? payers : recievers;
-    return (
-      (debtCard && debtCard.debtCard.length) ? <>
-        {
-          debtCards.debtCards.map((debtCard) => {
-          return (
-            <Card
-              debtCard={debtCard}
-              youOwe={debtCard.payer === user.user.email}
-              paid={debtCard.paid}
-            />
-          );
-        })
-        }
-      </> :
-        <Text>Nothing yet!</Text>
-    )
+    const debtCards = debtCardType == 'payer' ? payers : receivers;
+    const cards = [];
+    if (debtCards && debtCards.debtCards.length) {
+      debtCards.debtCards.map((debtCard) => {
+        cards.push(
+          <Card
+            key={debtCard.id}
+            debtCard={debtCard}
+            youOwe={debtCard.payer === user.user.email}
+            paid={debtCard.paid}
+          />
+        );
+      })
+    } else {
+       cards.push(<Text>Nothing yet!</Text>)
+    }
+    return cards;
   }
 
   return (

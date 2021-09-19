@@ -21,14 +21,14 @@ export default function Front({setApp}) {
             title="Create New Record"
             color="black"
             onPress={() => {
-              setApp('Create')
+              setApp('Create');
             }}
           />
           <Button
             title="View Records"
             color="black"
             onPress={() => {
-              setApp('View')
+              setApp('View');
             }}
           />
           <Button
@@ -36,7 +36,7 @@ export default function Front({setApp}) {
             title="About Page"
             onPress={
               () => {
-                setApp('About')
+                setApp('About');
               }
             }
           />
@@ -46,8 +46,8 @@ export default function Front({setApp}) {
             title="Log Out"
             onPress={
               () => {
-                setUser(null)
-                setApp('Login')
+                setUser(null);
+                setApp('Login');
               }
             }
           />

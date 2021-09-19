@@ -158,9 +158,10 @@ export const updatePaymentForDebtcard = async (id, isPaid) => {
  * @returns debtcards
  */
 export const getDebtcardForUserByDebtType = async (userEmail, debt) => {
-  if (debt !== 'payer' || debt !== 'receiver') return null;
-  const userDebtcards = fetch(`${API_URL}/debtcards/users/${userEmail}?debt=${debt}`)
+  // if (debt !== 'payer' || debt !== 'receiver') return null;
+  const userDebtcards = await fetch(`${API_URL}/debtcards/users/${userEmail}?debt=${debt}`)
     .then(res => res.json())
     .then(debtcards => debtcards);
+  console.log("userDebtcards -> ", userDebtcards);
   return userDebtcards;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
+import { Text, View, Button, TextInput } from 'react-native';
 import styles from '../styles';
 import { login } from '../../api';
 import { UserContext } from '../../Contexts/AppContext';
@@ -8,7 +8,15 @@ export default function Login({setApp}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ready, setReady] = useState(true);
-  const {user, setUser} = useContext(UserContext)
+  const {user, setUser} = useContext(UserContext);
+  const testUser = {
+    test: true,
+    user: {
+      firstName: "John",
+      lastName: "Doe",
+      email: "doe@gmail.com"
+    }
+  }
 
   const apiLoginUser = async () => {
     if (email && password) {
@@ -20,7 +28,10 @@ export default function Login({setApp}) {
   }
 
   useEffect(() => {
-    if (user && user.user) {
+    if (user && user.test) {
+      setReady(true);
+    }
+    else if (user && user.user) {
       console.log("user - >", user, user.user.email);
       setReady(true);
       setApp('Front');
@@ -29,7 +40,7 @@ export default function Login({setApp}) {
       setReady(false);
       setUser(null);
     }
-  }, [user])
+  }, [user]);
 
   return (
     <View style={styles.container}>
@@ -75,8 +86,8 @@ export default function Login({setApp}) {
         <Button
           color='black'
           title="Test"
-          onPress={
-            () => {
+          onPress={async () => {
+              await setUser(testUser);
               setApp('Front');
             }
           }
