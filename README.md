@@ -22,4 +22,4 @@ IOUAPP is used to record and save what you owe and what others may owe you. If y
 ### Authors
 Product Manager/Lead Frontend Engineer: Christian Williams
 
-Lead Fullstack Engineer: Marcelo Martins
+Lead Backend Engineer: Marcelo Martins
