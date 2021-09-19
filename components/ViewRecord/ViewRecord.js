@@ -10,20 +10,38 @@ export default function ViewRecord({setApp}) {
   const [receivers, setReceivers] = useState();
   const {user} = useContext(UserContext);
 
-  const getData = async () => {
-    setReceivers(await getDebtcardForUserByDebtType(user.user.email, 'receiver'));
-    console.log("receivers ", receivers);
-    setPayers(await getDebtcardForUserByDebtType(user.user.email, 'payer'));
-  }
 
-  useEffect(() => {getData()}, [receivers, payers]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    const getData = async() => {
+      setReceivers(await getDebtcardForUserByDebtType(user.user.email, 'receiver'));
+      setPayers(await getDebtcardForUserByDebtType(user.user.email, 'payer'));
+    }
+    getData()
+
+    return () => isSubscribed = false;
+  }, []);
+
+
 
   useEffect(() => {
     setpaid(false)
   }, [paid])
 
-  const Card = async ({debtCard, youOwe, paid}) => {
-    const otherPerson = await getUser(youOwe ? debtCard.receiver : debtCard.payer);
+
+
+  const Card = ({debtCard, youOwe, paid}) => {
+    const [otherPerson, setOP] = useState({})
+
+    useEffect(() => {
+      const usegetter = async () => {
+        setOP(await getUser(youOwe ? debtCard.receiver : debtCard.payer))
+      }
+      usegetter()
+      console.log("this is the other person!", otherPerson)
+    })
 
     const notificationMsg = {
       message: youOwe
@@ -69,22 +87,26 @@ export default function ViewRecord({setApp}) {
    */
   const Cards = ({debtCardType}) => {
     const debtCards = debtCardType == 'payer' ? payers : receivers;
-    const cards = [];
     if (debtCards && debtCards.debtCards.length) {
-      debtCards.debtCards.map((debtCard) => {
-        cards.push(
-          <Card
-            key={debtCard.id}
-            debtCard={debtCard}
-            youOwe={debtCard.payer === user.user.email}
-            paid={debtCard.paid}
-          />
-        );
-      })
+      console.log("debits found", debtCards.debtCards)
+      return (
+        <>
+          {
+            debtCards.debtCards.map((debtCard) => 
+              <Card
+                key={debtCard.id}
+                debtCard={debtCard}
+                youOwe={debtCard.payer === user.user.email}
+                paid={debtCard.paid}
+              />
+            )
+          }
+        </>
+        )
     } else {
-       cards.push(<Text>Nothing yet!</Text>)
+      console.log('None found')
+      return <Text>Nothing yet!</Text>
     }
-    return cards;
   }
 
   return (

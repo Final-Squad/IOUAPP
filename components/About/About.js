@@ -65,9 +65,10 @@ export default function About({setApp}) {
 
 
   useEffect(() => {
+    let isSubscribed = true
     run && newString();
-    return;
-  })
+    return () => isSubscribed = false
+  }, [run, string])
 
   const newString = () => {
     console.log(string)
