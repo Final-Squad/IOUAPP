@@ -66,12 +66,11 @@ export default function About({setApp}) {
 
   useEffect(() => {
     let isSubscribed = true
-    run && newString();
+    newString();
     return () => isSubscribed = false
-  }, [])
+  })
 
   const newString = () => {
-    console.log(string)
     sleep(3000).finally(() => {
       setNum((num % words.length) + 1)
       setString(words[num % words.length])

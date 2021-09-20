@@ -19,20 +19,20 @@ export default function Front({setApp}) {
         <View style={styles.buttons}>
           <Button
             title="Create New Record"
-            color="black"
+            color="white"
             onPress={() => {
               setApp('Create');
             }}
           />
           <Button
             title="View Records"
-            color="black"
+            color="white"
             onPress={() => {
               setApp('View');
             }}
           />
           <Button
-            color='black'
+            color='white'
             title="About Page"
             onPress={
               () => {
@@ -42,7 +42,7 @@ export default function Front({setApp}) {
           />
 
           <Button
-            color='black'
+            color='white'
             title="Log Out"
             onPress={
               () => {
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    color: 'white'
   },
   container: {
     height: 350,
@@ -82,10 +83,11 @@ const styles = StyleSheet.create({
   },
   iou: {
     fontSize: 50,
+    color: 'white'
   },
   app: {
     color: 'red',
     fontSize: 50,
-    opacity: .3,
+    opacity: 1,
   }
 });

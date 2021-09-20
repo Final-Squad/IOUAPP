@@ -61,7 +61,7 @@ export default function SignUp({setApp}) {
         onChangeText={setFirstName}
         value={firstName}
         placeholder={"First Name"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType='emailAddress'
       />
 
@@ -70,7 +70,7 @@ export default function SignUp({setApp}) {
         onChangeText={setLastName}
         value={lastName}
         placeholder={"Last Name"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType='emailAddress'
       />
 
@@ -79,7 +79,7 @@ export default function SignUp({setApp}) {
         onChangeText={setEmail}
         value={email}
         placeholder={"Email"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType='emailAddress'
       />
 
@@ -88,7 +88,7 @@ export default function SignUp({setApp}) {
         onChangeText={setPassword}
         value={password}
         placeholder={"Password"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType='password'
         secureTextEntry={true}
       />
@@ -97,18 +97,18 @@ export default function SignUp({setApp}) {
         onChangeText={setVerify}
         value={verify}
         placeholder={"Verfy Password"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType='password'
         secureTextEntry={true}
       />
 
       <View style={styles.buttons}>
         <Button
-        color='black'
+        color='white'
         title={'Sign Up!'}
         onPress={async () => await apiCreateUser()}/>
           <Button
-            color='black'
+            color='white'
             title="Back"
             onPress={
               () => {

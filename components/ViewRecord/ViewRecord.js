@@ -163,7 +163,7 @@ export default function ViewRecord({setApp}) {
       </View>
 
       <Button
-        color='black'
+        color='white'
         title="Done"
         onPress={ () => {setApp('Front')} }
       />
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     textAlign: 'center', 
-    fontSize: 18
+    fontSize: 18,
   },
   container: {
     paddingTop: 50,
@@ -192,7 +192,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    color: 'white'
   },
   input: {
     height: 40,
@@ -203,13 +204,16 @@ const styles = StyleSheet.create({
   header: {
     textAlign: 'center',
     margin: 10,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: 'white'
+
   },
   filter: {
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   filters: {
-    padding: '5%'
+    padding: '5%',
+    color: 'white'
   },
   card: {
     backgroundColor: 'white',
@@ -219,7 +223,7 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 5,
     shadowOffset: {width: 5, height: 5},
-    shadowColor: 'black',
+    shadowColor: 'white',
     shadowOpacity: .3
   },
   cardButtons: {

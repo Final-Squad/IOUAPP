@@ -55,7 +55,7 @@ export default function Login({setApp}) {
         onChangeText={setEmail}
         value={email}
         placeholder={"Email"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType='emailAddress'
       />
 
@@ -64,26 +64,26 @@ export default function Login({setApp}) {
         onChangeText={setPassword}
         value={password}
         placeholder={"Password"}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         textContentType={'password'}
         secureTextEntry={true}
       />
       <View style={styles.buttons}>
         <Button
-          color='black'
+          color='white'
           title={'Log In'}
           onPress={async () => await apiLoginUser()}
         />
 
         <Button
-          color='black'
+          color='white'
           title={'Sign Up'}
           onPress={() => {
             setApp('SignUp');
           }}
         />
         <Button
-          color='black'
+          color='white'
           title="Test"
           onPress={async () => {
               await setUser(testUser);

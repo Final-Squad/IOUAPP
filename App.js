@@ -9,6 +9,12 @@ import CreateRecords from './components/CreateRecords/CreateRecords';
 import ViewRecord from './components/ViewRecord/ViewRecord';
 import { ToastProvider } from 'react-native-toast-notifications';
 import { UserContext } from './Contexts/AppContext';
+import { LogBox } from 'react-native';
+
+
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+// LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -41,7 +47,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center'

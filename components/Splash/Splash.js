@@ -49,10 +49,11 @@ export default function Splash({setApp}) {
 const styles = StyleSheet.create({
   title: {
     fontSize: 50,
+    color: 'white'
   },
   apps: {
     color: 'red',
     fontSize: 50,
-    opacity: .3
+    opacity: 1
   }
 });

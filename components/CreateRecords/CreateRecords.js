@@ -45,20 +45,20 @@ export default function CreateRecords({setApp}) {
       <Text style={styles.title}>Create A New Record</Text>
       <Picker
         selectedValue={youOwe}
-        style={{ width: 300 }}
+        style={{ width: 300}}
         onValueChange={(itemValue, itemIndex) => {
           setyouOwe(itemValue);
         }}
       >
-        <Picker.Item label="I owe Someone" value={true} />
-        <Picker.Item label="Someone owes Me" value={false} />
+        <Picker.Item color='white' label="I owe Someone" value={true} />
+        <Picker.Item color='white' label="Someone owes Me" value={false} />
       </Picker>
 
       <TextInput
         style={styles.input}
         onChangeText={setOtherEmail}
         value={otherEmail}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         placeholder={ready ? "Email/Name of person you owe/owes you." : 'Please enter the Name or Email!'}
       />
 
@@ -67,7 +67,7 @@ export default function CreateRecords({setApp}) {
         type
         onChangeText={setReason}
         value={reason}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         placeholder={ready ? "Reason" : 'Please enter a reason!'}
       />
 
@@ -75,13 +75,13 @@ export default function CreateRecords({setApp}) {
         style={styles.input}
         onChangeText={setAmount}
         value={amount}
-        placeholderTextColor={ready ? 'black' : 'red'}
+        placeholderTextColor={ready ? 'white' : 'red'}
         placeholder={ready ? "Item Owed" : 'Please enter the Item that is owed!'}
       />
 
       <View style={styles.buttons}>
         <Button
-          color='black'
+          color='white'
           title={'Save'}
           onPress={async () => {
             if (otherEmail && reason && amount) {
@@ -99,7 +99,7 @@ export default function CreateRecords({setApp}) {
         />
 
         <Button
-          color='black'
+          color='white'
           title={'Back'}
           onPress={() => {
               setApp('Front');
@@ -107,7 +107,7 @@ export default function CreateRecords({setApp}) {
         />
 
         <Button
-        color='black'
+        color='white'
         title={'Share & Save'}
         onPress={async () => {
           if (otherEmail && reason && amount) {

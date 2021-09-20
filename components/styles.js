@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
     paddingLeft: 5,
+    color: 'white'
   },
   input: {
     height: 40,
@@ -26,7 +27,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 2.5,
-    borderColor: 'black',
+    borderColor: 'white',
+    color: 'white'
   },
   inputErr: {
     height: 40,
@@ -38,6 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 2.5,
     borderColor: accentColor,
     opacity: .7,
+    color: 'white'
   },
   buttons: {
     display: 'flex',
@@ -48,6 +51,7 @@ const styles = StyleSheet.create({
     width: inputWidth,
     display: 'flex',
     flexDirection: 'row',
+    color: 'white'
   },
   logoContainer: {
     position: 'absolute',
@@ -60,11 +64,12 @@ const styles = StyleSheet.create({
   },
   iou: {
     fontSize: 50,
+    color: 'white'
   },
   app: {
     color: 'red',
     fontSize: 50,
-    opacity: .3,
+    opacity: 1,
   }
 });
 
