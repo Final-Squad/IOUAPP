@@ -8,6 +8,7 @@ export default function ViewRecord({setApp}) {
   const [owedDebtCards, setOwedDebtCards] = useState();
   const [paidDebtCards, setPaidDebtCards] = useState();
   const {user} = useContext(UserContext);
+  const [payState, setPayState] = useState(false)
 
   useEffect(() => {
     let isSubscribed = true
@@ -19,11 +20,10 @@ export default function ViewRecord({setApp}) {
     }
     getData();
     return () => isSubscribed = false
-  }, []);
+  }, [payState]);
 
   const Card = ({debtCard, youOwe, paid}) => {
     const [otherPerson, setOP] = useState({})
-    const [payState, setPayState] = useState(paid)
 
     useEffect(() => {
       let isSubscribed = true
@@ -35,6 +35,7 @@ export default function ViewRecord({setApp}) {
       useGetter();
       return () => isSubscribed = false
     }, [])
+
 
     const notificationMsg = {
       message: youOwe
@@ -54,13 +55,13 @@ export default function ViewRecord({setApp}) {
         {paid && <Text style={styles.cardText
           }>{`Paid on this date: ${debtCard.updatedAt.split('T')[0]}`}</Text>}
         {
-          !payState
+          !paid
           ?
           <View style={styles.buttonContainers}>
             <Text
               onPress={ async () => {
-                setPayState(true)
                 await updatePaymentForDebtcard(debtCard.id, true)
+                setPayState(!payState)
               } }
               style={[styles.cardButtons, styles.paidbutt]}
             >Pay</Text>
@@ -219,7 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: .2,
     width: 350,
-    height: 250,
+    height: 230,
     margin: 10,
     borderRadius: 5,
     shadowOffset: {width: 5, height: 5},
