@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect, useContext} from 'react';
 import { StyleSheet, Text, View, Button, ScrollView, Share } from 'react-native';
-import { getDebtcardForUserByDebtType, getUser, getUsersPaidAndPaidDebtcards, updatePaymentForDebtcard } from '../../api';
+import { deleteDebtcardById, getDebtcardForUserByDebtType, getUser, getUsersPaidAndPaidDebtcards, updatePaymentForDebtcard } from '../../api';
 import { UserContext } from '../../Contexts/AppContext';
 
 export default function ViewRecord({setApp}) {
@@ -19,7 +19,7 @@ export default function ViewRecord({setApp}) {
     getData();
   }, []);
 
-  const Card = ({debtCard, youOwe, paid, owedFilterBool}) => {
+  const Card = ({debtCard, youOwe, paid}) => {
     const [otherPerson, setOP] = useState({})
 
     useEffect(() => {
@@ -59,9 +59,13 @@ export default function ViewRecord({setApp}) {
               style={[styles.cardButtons, styles.paidbutt]}
             >Pay</Text>
             <Text
-              onPress={async () => await Share.share(notificationMsg)}
+              onPress={ async () => await Share.share(notificationMsg) }
               style={[styles.cardButtons, styles.reminderbutt]}
             >Send Reminder</Text>
+            <Text
+              onPress={ async () => { await deleteDebtcardById(debtCard.id) } }
+              style={[styles.cardButtons, styles.deleteButt]}
+            >Delete</Text>
           </View>
           :
           null
@@ -221,6 +225,9 @@ const styles = StyleSheet.create({
   },
   reminderbutt: {
     backgroundColor: 'purple',
+  },
+  deleteButt: {
+    backgroundColor: 'red',
   },
   buttonContainers: {
     display: 'flex',

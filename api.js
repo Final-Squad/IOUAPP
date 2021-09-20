@@ -139,6 +139,21 @@ export const getDebtcardById = async (id) => {
 }
 
 /**
+ * get debtcard by id
+ * @param {*} id
+ * @returns debtcard or error if does not exist
+ */
+ export const deleteDebtcardById = async (id) => {
+  const debtcard = await fetch(
+    `${API_URL}/debtcards/${id}`,
+    { method: 'DELETE' }
+    ).then(res => res.json())
+    .then(debtcard => debtcard);
+  console.log("DELETED ", debtcard);
+  return debtcard;
+}
+
+/**
  * update payment for debtcard
  * @param {*} id mongo objectId
  * @param {*} isPaid boolean value
