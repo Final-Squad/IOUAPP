@@ -137,8 +137,8 @@ export default function ViewRecord({setApp}) {
     <View style={styles.container}>
       <Text style={styles.title}>{'Records\n'}</Text>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', paddingLeft: '20%', paddingRight: '20%' }}>
-        <Text onPress={() => {setOweFilter(true)}} style={[OweFilter && styles.filter, styles.filters]}>Me to You</Text>
-        <Text onPress={() => {setOweFilter(false)}} style={[!OweFilter && styles.filter, styles.filters]}>You to Me</Text>
+        <Text onPress={() => {setOweFilter(true)}} style={[OweFilter && styles.filter, styles.filters]}>I OWE</Text>
+        <Text onPress={() => {setOweFilter(false)}} style={[!OweFilter && styles.filter, styles.filters]}>OWES ME</Text>
       </View>
 
       <Text style={styles.header}>Dues To Be Paid</Text>

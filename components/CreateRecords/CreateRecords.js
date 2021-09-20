@@ -109,13 +109,22 @@ export default function CreateRecords({setApp}) {
         <Button
         color='white'
         title={'Share & Save'}
-        onPress={async () => {
+        onPress={() => {
           if (otherEmail && reason && amount) {
-            await Share.share({
-              message: 'Hey, this was sent from the app,\n' + pl
-            });
-            setReady(true)
-            setApp('View');
+            createDebtcard(
+              payload.payer, payload.receiver,
+              payload.reason, payload.amount
+            ).then(() => {
+              Share.share({
+                message: `Reminder to send ${user.user.firstName} ${amount}`
+              }).then(() => {
+                setReady(true)
+                setApp('View');
+              }).catch(() => {
+                toast.show("Error: Try sharing again", alertConfig)
+              });
+            })
+
           } else {
             setReady(false);
             toast.show("Missing fields", alertConfig)
