@@ -10,6 +10,7 @@ export default function ViewRecord({setApp}) {
   const {user} = useContext(UserContext);
 
   useEffect(() => {
+    let isSubscribed = true
     const getData = async () => {
       const owedCards = await getDebtcardForUserByDebtType(user.user.email);
       const paidCards = await getUsersPaidAndPaidDebtcards(user.user.email);
@@ -17,18 +18,22 @@ export default function ViewRecord({setApp}) {
       setPaidDebtCards(paidCards);
     }
     getData();
+    return () => isSubscribed = false
   }, []);
 
   const Card = ({debtCard, youOwe, paid}) => {
     const [otherPerson, setOP] = useState({})
+    const [payState, setPayState] = useState(paid)
 
     useEffect(() => {
+      let isSubscribed = true
       const useGetter = async () => {
         const otherP = await getUser(youOwe ? debtCard.receiver : debtCard.payer);
         const otherPAfterAwait = otherP.user ? otherP.user : youOwe ? { firstName: debtCard.receiver,lastName: '' } : { firstName: debtCard.payer,lastName: '' };
         setOP(otherPAfterAwait)
       }
       useGetter();
+      return () => isSubscribed = false
     }, [])
 
     const notificationMsg = {
@@ -37,23 +42,24 @@ export default function ViewRecord({setApp}) {
         : `Hey ${otherPerson.firstName}, don't forget to send me the $${debtCard.amount}`
     }
 
-    const whoOwesWho = youOwe && !paid ? `I owe ${otherPerson.firstName}` : `${otherPerson.firstName} owes me`;
-    const whoPaidWho = youOwe && paid ? `I paid ${otherPerson.firstName}` : `${otherPerson.firstName} paid me`;
+    const whoOwesWho = youOwe && !paid ? `I Owe ${otherPerson.firstName}` : `${otherPerson.firstName} Owes Me`;
+    const whoPaidWho = youOwe && paid ? `I Paid ${otherPerson.firstName}` : `${otherPerson.firstName} Paid Me`;
 
     return (
       <View style={styles.card}>
         <Text style={styles.cardName}>{paid ? whoPaidWho : whoOwesWho}</Text>
-        <View style={styles.cardInfo}>
-          <Text>{`Name: ${otherPerson.firstName} ${otherPerson.lastName}`}</Text>
-          <Text>{`Amount: ${debtCard.amount}`}</Text>
-          <Text>{`Date: ${debtCard.createdAt}`}</Text>
-        </View>
+        <Text style={styles.cardText}>{`Name: ${otherPerson.firstName} ${otherPerson.lastName}`}</Text>
+        <Text style={styles.cardText}>{`Amount: ${debtCard.amount}`}</Text>
+        <Text style={styles.cardText}>{`Date: ${debtCard.createdAt.split('T')[0]}`}</Text>
+        {paid && <Text style={styles.cardText
+          }>{`Paid on this date: ${debtCard.updatedAt.split('T')[0]}`}</Text>}
         {
-          debtCard.payer === user.user.email && debtCard.paid === false
+          !payState
           ?
           <View style={styles.buttonContainers}>
             <Text
               onPress={ async () => {
+                setPayState(true)
                 await updatePaymentForDebtcard(debtCard.id, true)
               } }
               style={[styles.cardButtons, styles.paidbutt]}
@@ -62,10 +68,10 @@ export default function ViewRecord({setApp}) {
               onPress={ async () => await Share.share(notificationMsg) }
               style={[styles.cardButtons, styles.reminderbutt]}
             >Send Reminder</Text>
-            <Text
+            {/* <Text
               onPress={ async () => { await deleteDebtcardById(debtCard.id) } }
               style={[styles.cardButtons, styles.deleteButt]}
-            >Delete</Text>
+            >Delete</Text> */}
           </View>
           :
           null
@@ -111,14 +117,14 @@ export default function ViewRecord({setApp}) {
     if (owedDebtCards && paid === false) {
       return (
         <>
-          { owedDebtCards.map((debtCard) => <DebtCardsByOwedFilter debtCard={debtCard} isPaid={false} />) }
+          { owedDebtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) }
         </>
         )
     } else if (paidDebtCards && paid) {
       return (
         <>
-          { paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter debtCard={debtCard} isPaid={true} />) }
-          { paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter debtCard={debtCard} isPaid={true} />) }
+          { paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) }
+          { paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) }
         </>
       )
     } else {
@@ -172,10 +178,11 @@ const styles = StyleSheet.create({
   },
   cardName: {
     textAlign: 'center',
-    fontSize: 30
+    fontSize: 30,
+    paddingVertical: 30
   },
-  cardInfo: {
-    textAlign: 'center',
+  cardText: {
+    textAlign: 'center', 
     fontSize: 18
   },
   container: {
@@ -206,11 +213,14 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'white',
-    borderWidth: .5,
+    borderWidth: .2,
     width: 350,
-    height: 150,
+    height: 250,
     margin: 10,
     borderRadius: 5,
+    shadowOffset: {width: 5, height: 5},
+    shadowColor: 'black',
+    shadowOpacity: .3
   },
   cardButtons: {
     fontSize: 20,
@@ -225,9 +235,6 @@ const styles = StyleSheet.create({
   },
   reminderbutt: {
     backgroundColor: 'purple',
-  },
-  deleteButt: {
-    backgroundColor: 'red',
   },
   buttonContainers: {
     display: 'flex',

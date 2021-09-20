@@ -68,9 +68,10 @@ export default function About({setApp}) {
     let isSubscribed = true
     run && newString();
     return () => isSubscribed = false
-  }, [run, string])
+  }, [])
 
   const newString = () => {
+    console.log(string)
     sleep(3000).finally(() => {
       setNum((num % words.length) + 1)
       setString(words[num % words.length])
@@ -120,6 +121,7 @@ const styles = StyleSheet.create({
   container: {
     padding: '10%',
     backgroundColor: 'pink'
+    
   },
   titleContainer: {
     marginBottom: 50,

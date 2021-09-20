@@ -59,7 +59,7 @@ export default function CreateRecords({setApp}) {
         onChangeText={setOtherEmail}
         value={otherEmail}
         placeholderTextColor={ready ? 'black' : 'red'}
-        placeholder={ready ? "Email of the person you owe/owes you." : 'Please enter the eamil!'}
+        placeholder={ready ? "Email/Name of person you owe/owes you." : 'Please enter the Name or Email!'}
       />
 
       <TextInput
@@ -76,7 +76,7 @@ export default function CreateRecords({setApp}) {
         onChangeText={setAmount}
         value={amount}
         placeholderTextColor={ready ? 'black' : 'red'}
-        placeholder={ready ? "Amount" : 'Please enter the amount!'}
+        placeholder={ready ? "Item Owed" : 'Please enter the Item that is owed!'}
       />
 
       <View style={styles.buttons}>
