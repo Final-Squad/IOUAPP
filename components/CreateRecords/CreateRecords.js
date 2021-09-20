@@ -115,7 +115,7 @@ export default function CreateRecords({setApp}) {
               message: 'Hey, this was sent from the app,\n' + pl
             });
             setReady(true)
-            // setApp('View');
+            setApp('View');
           } else {
             setReady(false);
             toast.show("Missing fields", alertConfig)

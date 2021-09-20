@@ -149,7 +149,6 @@ export const getDebtcardById = async (id) => {
     { method: 'DELETE' }
     ).then(res => res.json())
     .then(debtcard => debtcard);
-  console.log("DELETED ", debtcard);
   return debtcard;
 }
 
