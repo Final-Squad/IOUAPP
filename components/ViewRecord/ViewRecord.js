@@ -21,7 +21,7 @@ export default function ViewRecord({setApp}) {
     }
     getData();
     return () => isSubscribed = false
-  }, [payState]);
+  }, [payState, delState]);
 
   const Card = ({debtCard, youOwe, paid}) => {
     const [otherPerson, setOP] = useState({})
@@ -53,7 +53,7 @@ export default function ViewRecord({setApp}) {
         <Text style={styles.cardText}>
           <Text style={styles.keyName}>Name: </Text>{otherPerson.firstName} {otherPerson.lastName}</Text>
         <Text style={styles.cardText}><Text style={styles.keyName}>Reason: </Text>{debtCard.reason}</Text>
-        <Text style={styles.cardText}><Text style={styles.keyName}>Amount: </Text>{debtCard.amount}</Text>
+        <Text style={styles.cardText}><Text style={styles.keyName}>Amount/Item Owed: </Text>{debtCard.amount}</Text>
         <Text style={styles.cardText}><Text style={styles.keyName}>Date: </Text>{`${debtCard.createdAt.split('T')[0]}`}</Text>
 
         {paid && <Text style={styles.cardText
