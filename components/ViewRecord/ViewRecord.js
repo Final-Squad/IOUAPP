@@ -40,8 +40,8 @@ export default function ViewRecord({setApp}) {
 
     const notificationMsg = {
       message: youOwe
-        ? `Hey ${otherPerson.firstName}I haven't forgotten about the $${debtCard.amount}`
-        : `Hey ${otherPerson.firstName}, don't forget to send me the $${debtCard.amount}`
+        ? `Hey ${otherPerson.firstName}I haven't forgotten about the ${debtCard.amount}`
+        : `Hey ${otherPerson.firstName}, don't forget to send me the ${debtCard.amount}`
     }
 
     const whoOwesWho = youOwe && !paid ? `I Owe ${otherPerson.firstName}` : `${otherPerson.firstName} Owes Me`;
