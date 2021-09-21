@@ -76,7 +76,7 @@ export default function CreateRecords({setApp}) {
         onChangeText={setAmount}
         value={amount}
         placeholderTextColor={ready ? 'white' : 'red'}
-        placeholder={ready ? "Item Owed" : 'Please enter the Item that is owed!'}
+        placeholder={ready ? "Item That is Owed/Amount" : 'Please enter the Item that is owed!'}
       />
 
       <View style={styles.buttons}>

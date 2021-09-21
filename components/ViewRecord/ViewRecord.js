@@ -9,6 +9,7 @@ export default function ViewRecord({setApp}) {
   const [paidDebtCards, setPaidDebtCards] = useState();
   const {user} = useContext(UserContext);
   const [payState, setPayState] = useState(false)
+  const [delState, setDelState] = useState(false)
 
   useEffect(() => {
     let isSubscribed = true
@@ -49,11 +50,14 @@ export default function ViewRecord({setApp}) {
     return (
       <View style={styles.card}>
         <Text style={styles.cardName}>{paid ? whoPaidWho : whoOwesWho}</Text>
-        <Text style={styles.cardText}>{`Name: ${otherPerson.firstName} ${otherPerson.lastName}`}</Text>
-        <Text style={styles.cardText}>{`Amount: ${debtCard.amount}`}</Text>
-        <Text style={styles.cardText}>{`Date: ${debtCard.createdAt.split('T')[0]}`}</Text>
+        <Text style={styles.cardText}>
+          <Text style={styles.keyName}>Name: </Text>{otherPerson.firstName} {otherPerson.lastName}</Text>
+        <Text style={styles.cardText}><Text style={styles.keyName}>Reason: </Text>{debtCard.reason}</Text>
+        <Text style={styles.cardText}><Text style={styles.keyName}>Amount: </Text>{debtCard.amount}</Text>
+        <Text style={styles.cardText}><Text style={styles.keyName}>Date: </Text>{`${debtCard.createdAt.split('T')[0]}`}</Text>
+
         {paid && <Text style={styles.cardText
-          }>{`Paid on this date: ${debtCard.updatedAt.split('T')[0]}`}</Text>}
+          }><Text style={styles.keyName}>Paid Date: </Text>{`${debtCard.updatedAt.split('T')[0]}`}</Text>}
         {
           !paid
           ?
@@ -68,11 +72,11 @@ export default function ViewRecord({setApp}) {
             <Text
               onPress={ async () => await Share.share(notificationMsg) }
               style={[styles.cardButtons, styles.reminderbutt]}
-            >Send Reminder</Text>
-            {/* <Text
-              onPress={ async () => { await deleteDebtcardById(debtCard.id) } }
+            >Reminder</Text>
+            <Text
+              onPress={ async () => { await deleteDebtcardById(debtCard.id); setDelState(!delState) } }
               style={[styles.cardButtons, styles.deleteButt]}
-            >Delete</Text> */}
+            >Delete</Text>
           </View>
           :
           null
@@ -120,16 +124,22 @@ export default function ViewRecord({setApp}) {
         <>
           { owedDebtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) }
         </>
+        
         )
     } else if (paidDebtCards && paid) {
       return (
         <>
-          { paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) }
-          { paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) }
+          {
+              paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />)
+          }
+
+          {
+            paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) 
+          }
         </>
       )
     } else {
-      return <Text>Something went wrong!</Text>
+      return <Text style={{color: 'white'}}>Something went wrong!</Text>
     }
   }
 
@@ -180,11 +190,11 @@ const styles = StyleSheet.create({
   cardName: {
     textAlign: 'center',
     fontSize: 30,
-    paddingVertical: 30
+    paddingVertical: 10
   },
   cardText: {
     textAlign: 'center', 
-    fontSize: 18,
+    fontSize: 15,
   },
   container: {
     paddingTop: 50,
@@ -219,10 +229,10 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: 'white',
     borderWidth: .2,
-    width: 350,
-    height: 230,
+    width: 330,
+    height: 200,
     margin: 10,
-    borderRadius: 5,
+    borderRadius: 15,
     shadowOffset: {width: 5, height: 5},
     shadowColor: 'white',
     shadowOpacity: .3
@@ -233,17 +243,25 @@ const styles = StyleSheet.create({
     padding: 8,
     margin: 5,
     marginTop: 10,
+    fontWeight: '600',
     color: 'white'
   },
   paidbutt: {
-    backgroundColor: 'green',
+    color: 'green',
   },
   reminderbutt: {
-    backgroundColor: 'purple',
+    color: 'purple',
+  },
+  deleteButt: {
+    color: 'red'
   },
   buttonContainers: {
+    borderRadius: 15,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center'
+  },
+  keyName: {
+    color: 'grey',
   }
 });
