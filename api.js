@@ -182,7 +182,10 @@ export const getDebtcardForUserByDebtType = async (userEmail) => {
     ...payerUserDebtcards.debtCards,
     ...receiverUserDebtcards.debtCards,
   ];
-  return combined;
+  return {
+    payers: payerUserDebtcards,
+    receivers: receiverUserDebtcards,
+  }
 }
 
 export const getUsersPaidAndPaidDebtcards = async (userEmail) => {

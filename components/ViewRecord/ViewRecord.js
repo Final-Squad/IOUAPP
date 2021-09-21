@@ -122,20 +122,15 @@ export default function ViewRecord({setApp}) {
     if (owedDebtCards && paid === false) {
       return (
         <>
-          { owedDebtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) }
+          { owedDebtCards.payers.debtCards.length > 0 ? owedDebtCards.payers.debtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
+          { owedDebtCards.receivers.debtCards.length > 0 ?  owedDebtCards.receivers.debtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
         </>
-        
-        )
+      )
     } else if (paidDebtCards && paid) {
       return (
         <>
-          {
-              paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />)
-          }
-
-          {
-            paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) 
-          }
+          { paidDebtCards.youPaid.length ? paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
+          { paidDebtCards.youReceived.length ? paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
         </>
       )
     } else {
@@ -193,7 +188,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   cardText: {
-    textAlign: 'center', 
+    textAlign: 'center',
     fontSize: 15,
   },
   container: {
