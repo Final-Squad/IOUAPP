@@ -34,7 +34,6 @@ export default function SignUp({setApp}) {
 
   useEffect(() => {
     if (user && user.user) {
-      setloggedUser(user)
       setReady(true);
       setApp('Front');
     } else if (user && user.error) {
