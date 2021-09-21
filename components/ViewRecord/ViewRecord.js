@@ -122,19 +122,29 @@ export default function ViewRecord({setApp}) {
     if (owedDebtCards && paid === false) {
       return (
         <>
-          { owedDebtCards.payers.debtCards.length > 0 ? owedDebtCards.payers.debtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
-          { owedDebtCards.receivers.debtCards.length > 0 ?  owedDebtCards.receivers.debtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
+          { owedDebtCards.payers.debtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) }
+          { owedDebtCards.receivers.debtCards.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={false} />) }
+          {
+            OweFilter
+            ? owedDebtCards.payers.debtCards.length === 0 ? <Text style={styles.colorWhite}>{'Nothing Yet!'}</Text> : null
+            : owedDebtCards.receivers.debtCards.length === 0 ? <Text style={styles.colorWhite}>{'Nothing Yet!'}</Text>  : null
+          }
         </>
       )
     } else if (paidDebtCards && paid) {
       return (
         <>
-          { paidDebtCards.youPaid.length ? paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
-          { paidDebtCards.youReceived.length ? paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) : <Text style={{color: 'white'}}>Nothing Yet!</Text> }
+          { paidDebtCards.youPaid.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) }
+          { paidDebtCards.youReceived.map((debtCard) => <DebtCardsByOwedFilter key={debtCard.id} debtCard={debtCard} isPaid={true} />) }
+          {
+            OweFilter
+            ? paidDebtCards.youPaid.length === 0 ? <Text style={styles.colorWhite}>{'Nothing Yet!'}</Text> : null
+            : paidDebtCards.youReceived.length === 0 ? <Text style={styles.colorWhite}>{'Nothing Yet!'}</Text>  : null
+          }
         </>
       )
     } else {
-      return <Text style={{color: 'white'}}>Something went wrong!</Text>
+      return <Text style={styles.colorWhite}>Something went wrong!</Text>
     }
   }
 
@@ -258,5 +268,16 @@ const styles = StyleSheet.create({
   },
   keyName: {
     color: 'grey',
+  },
+  colorWhite: {
+    width: 380,
+    height: 40,
+    paddingTop: 10,
+    textAlign: 'center',
+    backgroundColor: '#f56342',
+    color: 'white',
+    borderRadius: 15,
+    fontSize: 15,
+    fontWeight: '600',
   }
 });
